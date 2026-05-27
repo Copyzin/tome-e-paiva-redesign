@@ -1,0 +1,104 @@
+---
+// Hero — headline + CTA pair + iridescent perspective lockup card.
+// The card's mouse-tracking tilt/glow (ported from the React original) runs client-side.
+import Button from './Button.astro';
+---
+<section id="hero" class="tp-hero">
+  <div class="tp-hero__bg"></div>
+  <img class="tp-hero__symbol" src="/assets/logo-tome-paiva-gold.png" alt="" aria-hidden="true" />
+  <div class="tp-container">
+    <div class="tp-hero__inner">
+      <div class="tp-hero__copy">
+        <div class="tp-hero__eyebrow">
+          <span>Advogados associados · Campinas / SP</span>
+        </div>
+        <h1><em>Rigor</em> técnico em<br />cinco frentes do Direito.</h1>
+        <p>
+          Tomé &amp; Paiva atua em demandas estratégicas, contenciosas e
+          consultivas. Equipe dedicada por área, com acompanhamento
+          próximo do cliente.
+        </p>
+        <div class="tp-hero__cta-row">
+          <Button variant="primary" href="/#contato" iconRight>Agendar reunião</Button>
+          <Button variant="secondary" href="/especialidades">Conhecer especialidades</Button>
+        </div>
+      </div>
+      <div class="tp-hero__visual">
+        <div class="iri-stage">
+          <div
+            class="iri-stage__halo"
+            id="iri-halo"
+            style="opacity: 0.28; background: radial-gradient(circle at 50% 50%, rgba(226,192,120,0.55) 0%, rgba(169,121,64,0.30) 28%, rgba(169,121,64,0) 65%)"
+          >
+          </div>
+          <div
+            class="iri-card"
+            id="iri-card"
+            style="transform: perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1); --mx: 50%; --my: 50%; --border-a: 0.55"
+          >
+            <img src="/assets/logo-tome-paiva-full-gold-on-black.jpeg" alt="Tomé &amp; Paiva, advogados associados" class="iri-card__image" draggable="false" />
+            <div class="iri-card__edge" style="opacity: 0.7"></div>
+            <div
+              class="iri-card__iri"
+              id="iri-iri"
+              style="opacity: 0.25; background: conic-gradient(from 180deg at 50% 50%, hsla(38,80%,60%,0.55) 0deg, hsla(98,70%,55%,0) 90deg, hsla(218,65%,60%,0.45) 180deg, hsla(38,80%,70%,0) 270deg, hsla(38,80%,60%,0.55) 360deg)"
+            >
+            </div>
+            <div
+              class="iri-card__spec"
+              id="iri-spec"
+              style="opacity: 0; background: radial-gradient(circle 55% at 50% 50%, rgba(255,220,160,0.45) 0%, rgba(195,145,80,0.25) 28%, rgba(169,121,64,0) 60%)"
+            >
+            </div>
+            <div class="iri-card__noise" style="opacity: 0.36"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const card = document.getElementById('iri-card');
+  const halo = document.getElementById('iri-halo');
+  const iri = document.getElementById('iri-iri');
+  const spec = document.getElementById('iri-spec');
+
+  // defaults ported from HERO_CARD_DEFAULTS
+  const t = { tiltDeg: 5, scale: 1.02, glowSize: 55, glowIntensity: 0.55 };
+  const h1 = 38, h2 = 98, h3 = 218; // iridescenceHue base + offsets
+
+  function render(x: number, y: number, active: boolean) {
+    if (!card || !halo || !iri || !spec) return;
+    const rotY = ((x - 50) / 50) * t.tiltDeg;
+    const rotX = -((y - 50) / 50) * t.tiltDeg;
+    const scale = active ? t.scale : 1;
+    card.style.transform = `perspective(1200px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${scale})`;
+    card.style.setProperty('--mx', `${x}%`);
+    card.style.setProperty('--my', `${y}%`);
+    halo.style.opacity = active ? '0.7' : '0.28';
+    halo.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(226,192,120,0.55) 0%, rgba(169,121,64,0.30) 28%, rgba(169,121,64,0) 65%)`;
+    iri.style.background = `conic-gradient(from ${x * 3.6}deg at ${x}% ${y}%, hsla(${h1},80%,60%,0.55) 0deg, hsla(${h2},70%,55%,0) 90deg, hsla(${h3},65%,60%,0.45) 180deg, hsla(${h1},80%,70%,0) 270deg, hsla(${h1},80%,60%,0.55) 360deg)`;
+    spec.style.opacity = active ? String(t.glowIntensity) : '0';
+    spec.style.background = `radial-gradient(circle ${t.glowSize}% at ${x}% ${y}%, rgba(255,220,160,0.45) 0%, rgba(195,145,80,0.25) 28%, rgba(169,121,64,0) 60%)`;
+  }
+
+  // Cursor-tracking tilt/glow is a desktop-only flourish. On touch devices
+  // (phones/tablets) the card stays static and never reacts to a "cursor",
+  // matching the reference where the effect does not appear there.
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (card && finePointer) {
+    let lastX = 50, lastY = 50;
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      lastX = ((e.clientX - r.left) / r.width) * 100;
+      lastY = ((e.clientY - r.top) / r.height) * 100;
+      card.classList.add('is-active');
+      render(lastX, lastY, true);
+    });
+    card.addEventListener('mouseleave', () => {
+      card.classList.remove('is-active');
+      render(lastX, lastY, false);
+    });
+  }
+</script>

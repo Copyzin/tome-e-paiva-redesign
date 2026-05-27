@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8"><title>Type — Relais Editorial</title><link rel="stylesheet" href="_card.css">
+<style>
+  /* Relais Trial Light does NOT contain accented glyphs (á é í ó ú ç ã õ).
+     Stack falls back to Open Sans Light Italic so missing glyphs render
+     in the supporting italic instead of a default serif. */
+  .relais { font-family: 'Relais', 'Open Sans', 'Cormorant Garamond', serif; font-weight: 300; color: #F2F0EC; }
+  .relais-xl { font-size: 52px; line-height: 1.05; letter-spacing: -0.02em; }
+  .relais-lg { font-size: 28px; line-height: 1.15; letter-spacing: -0.01em; }
+  .relais.italic-fallback { font-style: italic; }   /* triggers Open Sans Italic for chars missing in Relais */
+
+  .warn {
+    background: rgba(105, 0, 5, 0.18);
+    border: 1px solid rgba(255, 180, 171, 0.35);
+    border-radius: 2px;
+    padding: 10px 14px;
+    font-size: 11.5px;
+    line-height: 17px;
+    color: #FFB4AB;
+  }
+  .swap { color: #C39150; font-family: 'Open Sans', sans-serif; font-style: italic; font-weight: 300; }
+</style>
+</head>
+<body><div class="card">
+  <div class="row" style="justify-content:space-between;align-items:baseline">
+    <div class="eyebrow">Editorial · Relais Light</div>
+    <div class="dim" style="font-size:10.5px;letter-spacing:0.04em;font-family:ui-monospace,monospace">Relais Trial Light · 300</div>
+  </div>
+
+  <div class="relais relais-xl">Rigor in five fronts</div>
+  <div class="relais relais-lg">Five fronts of the Law</div>
+
+  <div class="warn">
+    <strong style="font-weight:600">Limitação:</strong> Relais Trial Light não inclui glifos com acentos (á é í ó ú ç ã õ) nem alguns caracteres especiais. Use apenas com texto sem acentuação, ou troque para <span class="swap">Open Sans Light Italic</span> quando o conteúdo for em português.
+  </div>
+
+  <div class="dim" style="font-size:11px;line-height:17px">Recomendado para manchetes editoriais em inglês ou expressões latinas curtas (ex.: "pro bono", "ad hoc", "stricto sensu"). Para qualquer texto em português corrente, prefira Open Sans Light ou Open Sans Light Italic.</div>
+</div></body></html>

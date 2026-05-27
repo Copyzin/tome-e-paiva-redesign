@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import SpecialtyDetail from '../components/SpecialtyDetail.astro';
+import Footer from '../components/Footer.astro';
+import ScrollTopButton from '../components/ScrollTopButton.astro';
+import { SPECIALTIES } from '../data/specialties';
+---
+<BaseLayout
+  title="Especialidades · Tomé & Paiva"
+  description="Cinco áreas de atuação: Direito do Trabalho, Previdenciário, Famílias e Sucessões, Civil e do Consumidor."
+>
+  <Navbar active="especialidades" />
+
+  <section class="tp-spec-hero">
+    <div class="tp-container">
+      <nav class="tp-spec-hero__breadcrumb" aria-label="breadcrumb">
+        <a href="/">Início</a>
+        <span>·</span>
+        <span class="tp-current">Especialidades</span>
+      </nav>
+      <h1>Cinco frentes do Direito. Uma <em>conduta</em>.</h1>
+      <p>
+        Atuação consultiva e contenciosa em demandas estratégicas. Selecione
+        a área para conhecer escopo, teses recorrentes e equipe responsável.
+      </p>
+    </div>
+  </section>
+
+  <section class="tp-section" style="padding-top: var(--space-7)">
+    <div class="tp-container">
+      {SPECIALTIES.map((s) => <SpecialtyDetail spec={s} />)}
+    </div>
+  </section>
+
+  <Footer />
+  <ScrollTopButton />
+</BaseLayout>

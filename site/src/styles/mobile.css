@@ -1,0 +1,84 @@
+/* =========================================================================
+   mobile.css — faithful mobile layer, ported from the design-reference
+   mobile mockup (ui_kits/website/mobile-preview.css). These are real @media
+   rules (no phone-bezel chrome, no fake status-bar padding). Loaded AFTER
+   site.css so it wins at the mobile breakpoint.
+   ========================================================================= */
+
+@media (max-width: 640px) {
+  /* The hero watermark intentionally bleeds past the right edge; never let it
+     (or anything else) create a horizontal scrollbar on phones. */
+  html, body { overflow-x: hidden; }
+
+  /* ===== Hero — match the reference mobile treatment =====================
+     The interactive iridescent card is NOT shown on phones; instead the hero
+     fills the screen with a soft, blurred logo watermark behind the copy and
+     the CTAs pinned to the bottom. */
+  .tp-hero {
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-top: 100px;
+    padding-bottom: 56px;
+    display: flex;
+    align-items: center;   /* center the copy block — keeps CTAs near the text */
+    /* .tp-hero already has overflow:hidden in site.css — clips the watermark */
+  }
+  .tp-hero .tp-container { width: 100%; }
+  .tp-hero__inner {
+    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .tp-hero__copy { display: flex; flex-direction: column; gap: 0; }
+  .tp-hero__eyebrow { margin: 0 0 16px; }
+  .tp-hero__copy h1 { margin: 0 0 18px; }
+  .tp-hero__copy p { margin: 0; max-width: none; }
+  /* comfortable, fixed gap below the copy instead of pushing CTAs to the bottom */
+  .tp-hero__cta-row { margin-top: 0; padding-top: 32px; }
+
+  /* hide the desktop card + the old absolute symbol */
+  .tp-hero__visual { display: none; }
+  .tp-hero__symbol { display: none; }
+
+  .tp-hero h1 { font-size: 40px; line-height: 1.08; }
+  .tp-hero p { font-size: 14px; line-height: 22px; }
+
+  /* Blurred logo watermark — 540×366 keeps the source aspect (1232×835),
+     right edge bleeds ~220px past the viewport, clipped by .tp-hero. */
+  .tp-hero::after {
+    content: '';
+    position: absolute;
+    width: 540px;
+    height: 366px;
+    right: -220px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-image: url('/assets/logo-tome-paiva-gold.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    opacity: 0.18;
+    filter: blur(2.5px) saturate(1.1);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ===== Section headers / About ===== */
+  .tp-section__title { font-size: 30px; line-height: 1.15; }
+  .tp-about__quote { font-size: 22px; line-height: 32px; }
+
+  /* ===== Specialty cards ===== */
+  .tp-spec-card { padding: 24px; min-height: 0; }
+  .tp-spec-card h3 { font-size: 22px; }
+
+  /* ===== Contact ===== */
+  .tp-contact__form { padding: 24px; }
+  .tp-contact__info-value { font-size: 16px; line-height: 24px; }
+
+  /* ===== Especialidades page ===== */
+  .tp-spec-row__num { font-size: 56px; }
+  .tp-spec-row__body h2 { font-size: 28px; line-height: 1.18; }
+  .tp-spec-row__aside { padding: 22px; }
+  .tp-spec-hero h1 { font-size: 32px; line-height: 1.15; }
+  .tp-spec-hero p { font-size: 15px; line-height: 24px; }
+}

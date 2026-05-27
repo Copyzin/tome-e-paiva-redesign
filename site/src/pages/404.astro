@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+---
+<BaseLayout title="Página não encontrada · Tomé & Paiva" description="A página que você procura não foi encontrada.">
+  <Navbar />
+  <section class="tp-section" style="padding-top: 160px; text-align: center">
+    <div class="tp-container">
+      <div class="tp-section__eyebrow">Erro 404</div>
+      <h1 class="tp-section__title">Página não encontrada.</h1>
+      <p class="tp-section__lede" style="margin-left: auto; margin-right: auto">
+        O endereço que você procura não existe ou foi movido. Verifique o link
+        ou retorne ao início.
+      </p>
+      <div style="margin-top: var(--space-6)">
+        <a class="tp-btn tp-btn--primary" href="/">Voltar ao início</a>
+      </div>
+    </div>
+  </section>
+  <Footer />
+</BaseLayout>

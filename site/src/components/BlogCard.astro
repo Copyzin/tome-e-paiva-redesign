@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import '../styles/blog.css';
+
+interface Props { post: CollectionEntry<'blog'>; }
+const { post } = Astro.props;
+const { title, description, pubDate, cover, tags } = post.data;
+const dateStr = pubDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
+const meta = [tags[0], dateStr].filter(Boolean).join(' · ');
+---
+<a href={`/blog/${post.id}`} class="tp-blog-card">
+  {cover ? (
+    <img src={cover} alt="" class="tp-blog-card__cover" loading="lazy" />
+  ) : (
+    <div class="tp-blog-card__cover tp-blog-card__cover--ph" aria-hidden="true"><span>T</span></div>
+  )}
+  <div class="tp-blog-card__body">
+    <div class="tp-blog-card__meta">{meta}</div>
+    <h3 class="tp-blog-card__title">{title}</h3>
+    <p class="tp-blog-card__excerpt">{description}</p>
+    <span class="tp-blog-card__cta">
+      Ler artigo
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+    </span>
+  </div>
+</a>

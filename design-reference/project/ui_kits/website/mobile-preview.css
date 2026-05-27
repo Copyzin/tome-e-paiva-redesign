@@ -1,0 +1,293 @@
+/* mobile-preview.css — forces the mobile responsive layout regardless of
+   actual viewport width, scopes everything inside .tp-phone-screen so the
+   phone bezel chrome stays unaffected. Loaded *after* styles.css so it
+   wins on specificity. */
+
+.tp-phone {
+  position: relative;
+  width: 402px;
+  height: 874px;
+  border-radius: 48px;
+  overflow: hidden;
+  background: #0B0B0B;
+  box-shadow:
+    0 40px 80px rgba(0,0,0,0.45),
+    0 0 0 1.5px rgba(255,255,255,0.06);
+  font-family: var(--font-sans);
+}
+
+/* Status bar */
+.tp-phone__statusbar {
+  position: absolute; top: 0; left: 0; right: 0; height: 54px;
+  z-index: 70;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 17px 28px 0;
+  font-family: -apple-system, "SF Pro", system-ui, sans-serif;
+  font-weight: 590; font-size: 16px; color: #fff;
+  pointer-events: none;
+}
+.tp-phone__statusbar svg { display: block; }
+
+/* Dynamic island */
+.tp-phone__island {
+  position: absolute; top: 11px; left: 50%; transform: translateX(-50%);
+  width: 122px; height: 35px; border-radius: 24px;
+  background: #000;
+  z-index: 80;
+}
+
+/* Home indicator */
+.tp-phone__home {
+  position: absolute; bottom: 9px; left: 50%; transform: translateX(-50%);
+  width: 130px; height: 5px; border-radius: 100px;
+  background: rgba(255,255,255,0.55);
+  z-index: 80;
+  pointer-events: none;
+}
+
+/* Scrollable screen */
+.tp-phone-screen {
+  position: absolute; inset: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--background);
+  /* hide native scrollbar */
+  scrollbar-width: none;
+}
+.tp-phone-screen::-webkit-scrollbar { display: none; }
+
+/* Inside the phone, force mobile layout for everything.
+   Selectors deliberately use the .tp-phone-screen ancestor + !important
+   on geometry-critical rules so they override the @media-gated desktop
+   values that fire when the actual viewport is wide. */
+
+/* Navbar sticks to the very top of the phone viewport (under the status
+   bar) as the screen scrolls. The inner row is padded down so the brand
+   and toggle clear the status bar / dynamic island area. */
+.tp-phone-screen .tp-nav {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 50;
+  height: auto !important;
+  /* Default: fully transparent. No background, no blur, no border. */
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom-color: transparent !important;
+}
+.tp-phone-screen .tp-nav::after { display: none; }   /* hide noise overlay at top */
+.tp-phone-screen .tp-nav__inner {
+  /* iOS status bar takes ~44px at the top of the screen.
+     Equalize visible padding above and below the logo:
+       above the logo (relative to status bar)  = 72 - 44 = 28px
+       below the logo (relative to nav bottom)  = 28px
+     So the brand sits visually centered between the clock area and the navbar bottom. */
+  padding-top: 72px !important;
+  padding-bottom: 28px !important;
+  height: auto !important;
+  min-height: 116px !important;
+  align-items: center;
+}
+.tp-phone-screen .tp-nav__brand img {
+  height: 36px !important;          /* keep logo at full size, never clip */
+  width: auto !important;
+}
+
+/* When scrolled past the hero, the mobile nav becomes a full-width dark glass
+   layer: ~78% black + backdrop blur + noise grain over the surface. */
+.tp-phone-screen .tp-nav.is-scrolled {
+  background: rgba(8, 8, 8, 0.78) !important;
+  backdrop-filter: blur(18px) saturate(1.1) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(1.1) !important;
+  border-bottom-color: rgba(169, 121, 64, 0.22) !important;
+}
+.tp-phone-screen .tp-nav.is-scrolled::after {
+  content: '';
+  display: block;
+  position: absolute; inset: 0;
+  background-image: url('../../assets/noise.svg');
+  background-size: 160px 160px;
+  background-repeat: repeat;
+  opacity: 0.10;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 0;
+}
+.tp-phone-screen .tp-nav.is-scrolled .tp-nav__inner { position: relative; z-index: 1; }
+.tp-phone-screen .tp-nav__inner { padding-left: 20px !important; padding-right: 20px !important; gap: 16px; max-width: 100%; }
+.tp-phone-screen .tp-nav__links,
+.tp-phone-screen .tp-nav__cta { display: none !important; }
+.tp-phone-screen .tp-nav__mobile-toggle { display: inline-flex !important; margin-left: auto; }
+.tp-phone-screen .tp-nav__brand-text,
+.tp-phone-screen .tp-nav__divider { display: none !important; }
+.tp-phone-screen .tp-nav__brand { padding-right: 0; }
+
+/* Mobile menu sits below the sticky navbar. Use fixed-style positioning
+   pinned to the phone screen so it covers all scroll positions. */
+.tp-phone-screen .tp-mobile-menu {
+  position: absolute !important;
+  top: 120px; left: 0; right: 0; bottom: 0;
+  z-index: 49;
+}
+
+.tp-phone-screen .tp-container { padding: 0 20px !important; }
+.tp-phone-screen .tp-section { padding: 64px 0 !important; }
+
+/* Hero — fill the visible phone area and distribute copy evenly.
+   The hero copy column becomes a vertical flex track:
+     - eyebrow sits at the top (just under the navbar)
+     - title + supporting paragraph sit in the middle
+     - CTAs sit at the bottom
+   We use min-height matched to the iPhone 14 viewport (812px - navbar 116px ≈ 696px)
+   so the layout fills the screen on most devices but never forces overflow. */
+.tp-phone-screen .tp-hero {
+  min-height: 720px !important;
+  padding-top: 32px !important;       /* small breathing room below the (sticky) navbar */
+  padding-bottom: 40px !important;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
+}
+.tp-phone-screen .tp-hero .tp-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.tp-phone-screen .tp-hero__inner {
+  grid-template-columns: 1fr !important;
+  gap: 0 !important;
+  flex: 1;
+  display: flex !important;
+  flex-direction: column;
+}
+.tp-phone-screen .tp-hero__copy {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* No flex gap — siblings own their own spacing so we can cluster the
+     headline block tightly at the top and push CTAs to the bottom. */
+  gap: 0;
+}
+/* Tight typography cluster: eyebrow → headline → paragraph all sit 4px apart.
+   The whole cluster is offset 35px from the top of the hero content area. */
+.tp-phone-screen .tp-hero__eyebrow { margin: 35px 0 4px 0 !important; }
+.tp-phone-screen .tp-hero__copy h1 { margin: 0 0 4px 0 !important; }
+.tp-phone-screen .tp-hero__copy p  { margin: 0 !important; }
+/* margin-top: auto pushes the CTA pair to the very bottom of the hero column. */
+.tp-phone-screen .tp-hero__cta-row { margin-top: auto !important; padding-top: 48px; }
+.tp-phone-screen .tp-hero__visual { display: none !important; }
+.tp-phone-screen .tp-hero__symbol { display: none !important; }
+
+/* Hero symbol used as background watermark.
+   logo-tome-paiva-gold.png is 1232×835 (~1.475 : 1, landscape).
+   Sized at 540×366 (matching aspect — no stretch) with the image's right
+   side bleeding past the phone edge and a comfortable margin on the left
+   so the symbol reads in full. Low opacity + blur push it behind the
+   headline so it never competes with the copy. */
+.tp-phone-screen .tp-hero::after {
+  content: '';
+  position: absolute;
+  width: 540px;
+  height: 366px;                              /* 540 × (835/1232) ≈ 366 → preserves source aspect */
+  right: -220px;                              /* right edge bleeds ~220px past viewport, left edge sits ~82px in */
+  top: 50%;
+  transform: translateY(-50%);
+  background-image: url('../../assets/logo-tome-paiva-gold.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;                 /* fills box exactly — no distortion */
+  background-position: center;
+  opacity: 0.18;                              /* watermark level — does not compete with headline */
+  filter: blur(2.5px) saturate(1.1);          /* soft defocus pushes it visually behind */
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Extra noise grain layered specifically over the hero background to give
+   it texture and break the smooth bitmap into something more atmospheric. */
+.tp-phone-screen .tp-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url('../../assets/noise.svg');
+  background-size: 160px 160px;
+  background-repeat: repeat;
+  opacity: 0.12;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 0;
+}
+.tp-phone-screen .tp-hero .tp-container { position: relative; z-index: 1; }
+
+.tp-phone-screen .tp-hero h1 { font-size: 42px !important; line-height: 1.08 !important; }
+.tp-phone-screen .tp-hero p { font-size: 14px !important; line-height: 22px !important; }
+.tp-phone-screen .tp-hero__cta-row { flex-direction: column; align-items: stretch; }
+.tp-phone-screen .tp-hero__cta-row .tp-btn { width: 100%; justify-content: center; }
+
+/* About */
+.tp-phone-screen .tp-about__grid { grid-template-columns: 1fr !important; gap: 48px !important; }
+.tp-phone-screen .tp-about__copy h2 { font-size: 32px !important; }
+.tp-phone-screen .tp-about__quote { font-size: 22px !important; line-height: 32px !important; }
+
+/* Section header */
+.tp-phone-screen .tp-section__title { font-size: 30px !important; line-height: 1.15 !important; }
+.tp-phone-screen .tp-section__lede { font-size: 16px !important; line-height: 26px !important; }
+.tp-phone-screen .tp-section__header { margin-bottom: 48px !important; }
+
+/* Specialty grid + cards */
+.tp-phone-screen .tp-specialty-grid { grid-template-columns: 1fr !important; }
+.tp-phone-screen .tp-spec-card { padding: 24px; min-height: 0; }
+.tp-phone-screen .tp-spec-card h3 { font-size: 22px; }
+
+/* Team */
+.tp-phone-screen .tp-team__grid { grid-template-columns: 1fr !important; }
+
+/* Contact */
+.tp-phone-screen .tp-contact__grid { grid-template-columns: 1fr !important; gap: 48px !important; }
+.tp-phone-screen .tp-contact__form { padding: 24px; }
+.tp-phone-screen .tp-contact__info-value { font-size: 16px; line-height: 24px; }
+
+/* Footer */
+.tp-phone-screen .tp-footer__grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+.tp-phone-screen .tp-footer__bottom { flex-direction: column !important; gap: 12px; text-align: center; }
+
+/* Especialidades page */
+.tp-phone-screen .tp-spec-row { grid-template-columns: 1fr !important; gap: 32px !important; }
+.tp-phone-screen .tp-spec-row__num { font-size: 56px !important; }
+.tp-phone-screen .tp-spec-row__body h2 { font-size: 28px; line-height: 1.18; }
+.tp-phone-screen .tp-spec-row__aside { padding: 22px; }
+.tp-phone-screen .tp-spec-hero { padding-top: 154px; padding-bottom: 32px !important; }
+.tp-phone-screen .tp-spec-hero h1 { font-size: 32px !important; line-height: 1.15 !important; }
+.tp-phone-screen .tp-spec-hero p { font-size: 15px !important; line-height: 24px !important; }
+
+/* Pull the first specialty article close to the hero's divider line.
+   styles.css gives every .tp-spec-row 64px top+bottom padding; we override
+   the FIRST row's top padding so the "01" sits ~16px below the hairline. */
+.tp-phone-screen .tp-section + .tp-section,        /* not the spec-list */
+.tp-phone-screen .tp-spec-hero + .tp-section { padding-top: 0 !important; }
+.tp-phone-screen .tp-spec-hero + .tp-section .tp-spec-row { padding-top: 24px !important; }
+.tp-phone-screen .tp-spec-hero + .tp-section .tp-spec-row + .tp-spec-row { padding-top: 48px !important; }
+
+/* Kill the global body::before noise — the screen has its own */
+.tp-phone-screen + body::before,
+body::before { display: none; }
+.tp-phone-screen::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url('../../assets/noise.svg');
+  background-size: 200px 200px;
+  background-repeat: repeat;
+  opacity: 0.085;
+  pointer-events: none;
+  z-index: 1000;
+  mix-blend-mode: screen;
+}
+
+/* Outer stage */
+body.mobile-stage {
+  margin: 0; padding: 40px 24px;
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(169,121,64,0.05) 0%, transparent 55%),
+    #0B0B0B;
+}

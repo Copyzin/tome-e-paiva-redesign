@@ -1,0 +1,297 @@
+/* =========================================================================
+   Tomé e Paiva — Colors & Type Tokens
+   "Autoridade elegante" — dark base, bronze gold accents, restrained type.
+   ========================================================================= */
+
+/* ---- Web fonts ---- */
+/* Google Fonts fills in weights we don't have local files for
+   (Montserrat 500/600/700, Cormorant Italic). Local @font-face below
+   overrides Montserrat 200/300/400 and Cormorant Regular with the
+   licensed brand files. */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,500&display=swap');
+
+@font-face {
+  font-family: 'Cookie Cutter Culture';
+  src: url('/fonts/Cookie_Cutter_Culture.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Relais';
+  src: url('/fonts/RelaisTrial-Light-BF645c450a1602f.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('/fonts/OpenSans-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('/fonts/OpenSans-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/Montserrat-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/Montserrat-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/Montserrat-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/fonts/CormorantGaramond-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ===== Surfaces — dark, institutional ===== */
+  --surface:                    #111111;
+  --surface-dim:                #0B0B0B;
+  --surface-bright:             #2A2A2A;
+  --surface-container-lowest:   #090909;
+  --surface-container-low:      #151515;
+  --surface-container:          #1C1C1C;
+  --surface-container-high:     #252525;
+  --surface-container-highest:  #303030;
+  --background:                 #111111;
+
+  /* ===== Foreground / on-surface ===== */
+  --on-background:              #F2F0EC;  /* off-white, not pure white */
+  --on-surface:                 #F2F0EC;
+  --on-surface-variant:         #D8D2C8;
+  --on-surface-muted:           #9A958C;  /* derived — captions, meta */
+
+  /* ===== Brand — Ouro Bronze ===== */
+  --primary:                    #A97940;  /* Ouro Bronze */
+  --on-primary:                 #111111;
+  --primary-container:          #7C5730;
+  --on-primary-container:       #F6E4C6;
+  --primary-bright:             #C39150;
+  --primary-light:              #E2C078;  /* Dourado Claro */
+
+  /* ===== Secondary — Grafite Jurídico ===== */
+  --secondary:                  #5B5B5F;
+  --on-secondary:               #FFFFFF;
+  --secondary-container:        #3E3E42;
+  --on-secondary-container:     #E5E5E8;
+
+  /* ===== Lines & outlines ===== */
+  --outline:                    #A97940;
+  --outline-variant:            #5B5B5F;
+  --hairline:                   rgba(169, 121, 64, 0.18); /* divider */
+  --hairline-strong:            rgba(169, 121, 64, 0.32);
+  --border-card:                rgba(169, 121, 64, 0.22);
+
+  /* ===== States ===== */
+  --error:                      #FFB4AB;
+  --on-error:                   #690005;
+  --success:                    #8FB996;
+
+  /* ===== Signature gradient — -45º Gold ===== */
+  --gold-gradient:              linear-gradient(-45deg, #A97940 0%, #C39150 48%, #E2C078 100%);
+  --gold-gradient-soft:         linear-gradient(-45deg, rgba(169,121,64,0.18) 0%, rgba(195,145,80,0.10) 48%, rgba(226,192,120,0.18) 100%);
+
+  /* ===== Fonts ===== */
+  --font-display: 'Cookie Cutter Culture', 'Cormorant Garamond', Georgia, serif;
+  --font-editorial: 'Relais', 'Open Sans', 'Cormorant Garamond', Georgia, serif;
+  --font-sans:    'Montserrat', system-ui, -apple-system, sans-serif;
+  --font-serif:   'Cormorant Garamond', Georgia, serif;
+
+  /* ===== Spacing — 8pt base ===== */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  24px;
+  --space-6:  32px;
+  --space-7:  48px;
+  --space-8:  64px;
+  --space-9:  96px;
+  --space-10: 144px;             /* section gap */
+
+  /* ===== Layout ===== */
+  --container-max:    1280px;
+  --gutter:           32px;
+  --margin-desktop:   64px;
+  --margin-tablet:    40px;
+  --margin-mobile:    20px;
+
+  /* ===== Radii — disciplined, near-rectangular ===== */
+  --radius-0: 0px;
+  --radius-1: 2px;   /* premium accents */
+  --radius-2: 4px;   /* inputs, buttons */
+  --radius-3: 6px;   /* cards */
+
+  /* ===== Motion ===== */
+  --ease-standard: cubic-bezier(0.2, 0, 0.2, 1);
+  --ease-emph:     cubic-bezier(0.2, 0, 0, 1);
+  --dur-fast:     180ms;
+  --dur-base:     220ms;
+  --dur-slow:     280ms;
+
+  /* ===== Shadows (used sparingly) ===== */
+  --shadow-card:    0 1px 0 rgba(255,255,255,0.02) inset, 0 12px 32px -16px rgba(0,0,0,0.55);
+  --shadow-float:   0 24px 64px -24px rgba(0,0,0,0.6);
+}
+
+/* =========================================================================
+   Type role classes — apply directly or compose
+   ========================================================================= */
+
+.t-display-lg {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 72px;
+  line-height: 78px;
+  letter-spacing: -0.02em;
+}
+
+.t-headline-lg {
+  font-family: var(--font-sans);
+  font-weight: 200;          /* ExtraLight */
+  font-size: 48px;
+  line-height: 58px;
+  letter-spacing: -0.03em;
+}
+
+.t-headline-lg-mobile {
+  font-family: var(--font-sans);
+  font-weight: 200;
+  font-size: 34px;
+  line-height: 42px;
+  letter-spacing: -0.02em;
+}
+
+.t-headline-md {
+  font-family: var(--font-sans);
+  font-weight: 300;          /* Light */
+  font-size: 32px;
+  line-height: 42px;
+  letter-spacing: -0.01em;
+}
+
+.t-headline-sm {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: -0.005em;
+}
+
+.t-body-lg {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 30px;
+}
+
+.t-body-md {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 26px;
+}
+
+.t-body-sm {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.t-label-caps {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.t-button {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.t-quote {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-style: italic;
+  font-size: 28px;
+  line-height: 40px;
+  letter-spacing: 0.005em;
+}
+
+/* =========================================================================
+   Semantic element defaults — opt-in by wrapping content in .tp-prose
+   or attaching tokens directly to elements.
+   ========================================================================= */
+
+.tp-prose h1, .tp-h1 { font-family: var(--font-sans); font-weight: 200; font-size: 48px; line-height: 58px; letter-spacing: -0.03em; color: var(--on-surface); }
+.tp-prose h2, .tp-h2 { font-family: var(--font-sans); font-weight: 300; font-size: 32px; line-height: 42px; letter-spacing: -0.01em; color: var(--on-surface); }
+.tp-prose h3, .tp-h3 { font-family: var(--font-sans); font-weight: 400; font-size: 24px; line-height: 32px; color: var(--on-surface); }
+.tp-prose p, .tp-p   { font-family: var(--font-sans); font-weight: 400; font-size: 16px; line-height: 26px; color: var(--on-surface-variant); }
+.tp-prose small, .tp-caption { font-family: var(--font-sans); font-weight: 400; font-size: 13px; line-height: 18px; color: var(--on-surface-muted); }
+
+/* Eyebrow label — used heavily above headlines */
+.tp-eyebrow {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+/* Gold text accent */
+.tp-gold-text {
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Hairline rule (gold) */
+.tp-rule {
+  display: block;
+  height: 1px;
+  width: 100%;
+  background: var(--hairline);
+  border: 0;
+}
+.tp-rule--gold {
+  background: var(--gold-gradient);
+  opacity: 0.7;
+}

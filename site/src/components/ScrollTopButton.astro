@@ -1,0 +1,59 @@
+---
+// Minimalist up-arrow that follows the scroll and returns to the top (Hero).
+// Fixed, fades in after scrolling down. Smooth scroll on click.
+---
+<button class="tp-scrolltop" type="button" aria-label="Voltar ao topo">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 19V5M5 12l7-7 7 7" />
+  </svg>
+</button>
+
+<style>
+  .tp-scrolltop {
+    position: fixed;
+    right: 20px;
+    bottom: max(20px, env(safe-area-inset-bottom, 0px));
+    z-index: 60;
+    width: 46px;
+    height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(11, 11, 11, 0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--hairline-strong);
+    border-radius: var(--radius-2);
+    color: var(--primary);
+    box-shadow: var(--shadow-float);
+    opacity: 0;
+    transform: translateY(14px);
+    pointer-events: none;
+    transition: opacity var(--dur-base) var(--ease-standard),
+                transform var(--dur-base) var(--ease-standard),
+                border-color var(--dur-base) var(--ease-standard),
+                background var(--dur-base) var(--ease-standard);
+  }
+  .tp-scrolltop.is-visible {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+  .tp-scrolltop:hover { border-color: var(--primary); background: rgba(11, 11, 11, 0.9); }
+  .tp-scrolltop svg { width: 20px; height: 20px; }
+
+  /* On phones the back-to-top button lives on the LEFT (better thumb reach). */
+  @media (max-width: 640px) {
+    .tp-scrolltop { right: auto; left: max(16px, env(safe-area-inset-left, 0px)); }
+  }
+</style>
+
+<script>
+  const btn = document.querySelector('.tp-scrolltop');
+  if (btn) {
+    const onScroll = () => btn.classList.toggle('is-visible', window.scrollY > 500);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  }
+</script>

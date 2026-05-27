@@ -1,0 +1,35 @@
+---
+// Partner / associate portrait cards (monogram placeholders — real photos pending).
+interface Member { name: string; role: string; oab: string; initial: string; }
+const TEAM: Member[] = [
+  { name: 'David Tomé', role: 'Sócio fundador', oab: 'OAB/SP 443.938', initial: 'D' },
+  { name: 'A. Paiva', role: 'Sócio fundador', oab: 'OAB/SP', initial: 'P' },
+  { name: 'Equipe associada', role: 'Advogados associados', oab: 'Cinco áreas de atuação', initial: 'T' },
+];
+---
+<section id="equipe" class="tp-section" style="background: var(--surface-dim)">
+  <div class="tp-container">
+    <div class="tp-section__header">
+      <div class="tp-section__eyebrow">Equipe</div>
+      <h2 class="tp-section__title">Acompanhamento <em>próximo</em>, sócio a sócio.</h2>
+      <p class="tp-section__lede">
+        Cada demanda é conduzida por um sócio responsável, com equipe associada
+        dedicada à área. Sem terceirização do contato com o cliente.
+      </p>
+    </div>
+    <div class="tp-team__grid">
+      {TEAM.map((m) => (
+        <div class="tp-team-card">
+          <div class="tp-team-card__portrait">
+            <span class="tp-team-card__portrait-initial">{m.initial}</span>
+          </div>
+          <div class="tp-team-card__body">
+            <div class="tp-team-card__role">{m.role}</div>
+            <div class="tp-team-card__name">{m.name}</div>
+            <div class="tp-team-card__oab">{m.oab}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

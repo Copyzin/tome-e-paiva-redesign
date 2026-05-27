@@ -1,0 +1,80 @@
+---
+// Base document layout: head, SEO meta, fonts, design tokens. Wraps every page.
+import '../styles/tokens.css';
+import '../styles/site.css';
+import '../styles/mobile.css';
+
+interface Props {
+  title: string;
+  description: string;
+  /** og/twitter image, relative to site root */
+  image?: string;
+}
+const { title, description, image = '/assets/logo-tome-paiva-full-gold-on-black.jpeg' } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL(image, Astro.site).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LegalService',
+  name: 'Tomé & Paiva Advogados Associados',
+  url: Astro.site?.href,
+  image: ogImage,
+  telephone: '+55-19-3324-3864',
+  email: 'david.tome@tomepaivaadvogados.com.br',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Rua Dona Ana Eufrosina, nº 54, Sala 1 — Jardim Brasil',
+    addressLocality: 'Campinas',
+    addressRegion: 'SP',
+    postalCode: '13073-023',
+    addressCountry: 'BR',
+  },
+  areaServed: 'BR',
+  knowsAbout: [
+    'Direito do Trabalho',
+    'Direito Previdenciário',
+    'Famílias e Sucessões',
+    'Direito Civil',
+    'Direito do Consumidor',
+  ],
+};
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#111111" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/png" href="/assets/logo-tome-paiva-gold.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Tomé & Paiva Advogados Associados" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,28 @@
+---
+// "Últimos artigos" teaser for the landing page — 3 newest posts.
+import BlogCard from './BlogCard.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => (import.meta.env.PROD ? !data.draft : true)))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+{posts.length > 0 && (
+  <section id="blog" class="tp-section" style="background: var(--surface-dim)">
+    <div class="tp-container">
+      <div class="tp-section__header">
+        <div class="tp-section__eyebrow">Do blog</div>
+        <h2 class="tp-section__title">Últimos <em>artigos</em>.</h2>
+        <p class="tp-section__lede">
+          Análises técnicas e institucionais sobre as cinco áreas de atuação do escritório.
+        </p>
+      </div>
+      <div class="tp-blog-grid">
+        {posts.map((post) => <BlogCard post={post} />)}
+      </div>
+      <div style="text-align: center; margin-top: var(--space-7)">
+        <a class="tp-btn tp-btn--secondary" href="/blog">Ver todos os artigos</a>
+      </div>
+    </div>
+  </section>
+)}

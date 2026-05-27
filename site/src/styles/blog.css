@@ -1,0 +1,268 @@
+/* =========================================================================
+   Blog — composed on top of tokens.css + site.css, same visual language
+   (dark surfaces, gold hairlines, thin Montserrat, disciplined radii).
+   ========================================================================= */
+
+/* ---- Listing header / article top: clear the fixed navbar ---- */
+.tp-blog-head { padding-top: 132px; padding-bottom: var(--space-7); }
+.tp-blog-list { padding-bottom: var(--space-10); }
+
+/* ---- Card grid ---- */
+.tp-blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+}
+@media (max-width: 1024px) { .tp-blog-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px)  { .tp-blog-grid { grid-template-columns: 1fr; } }
+
+/* ---- Card ---- */
+.tp-blog-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-container-low);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-3);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform var(--dur-base) var(--ease-standard),
+              border-color var(--dur-base) var(--ease-standard);
+}
+.tp-blog-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(169, 121, 64, 0.45);
+}
+.tp-blog-card__cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: var(--surface-container);
+}
+.tp-blog-card__cover--ph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(120% 120% at 30% 20%, rgba(169,121,64,0.18), transparent 60%),
+    var(--surface-container);
+}
+.tp-blog-card__cover--ph span {
+  font-family: var(--font-display);
+  font-size: 48px;
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: 0.7;
+}
+.tp-blog-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1;
+  padding: var(--space-5);
+}
+.tp-blog-card__meta {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.tp-blog-card__title {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 22px;
+  line-height: 28px;
+  letter-spacing: -0.01em;
+  color: var(--on-surface);
+}
+.tp-blog-card__excerpt {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--on-surface-variant);
+  flex: 1;
+}
+.tp-blog-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: var(--space-2);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.tp-blog-card__cta svg { width: 16px; height: 16px; transition: transform var(--dur-base) var(--ease-standard); }
+.tp-blog-card:hover .tp-blog-card__cta svg { transform: translateX(4px); }
+
+/* ---- Article ---- */
+.tp-article { padding-top: 124px; padding-bottom: var(--space-10); }
+.tp-crumb {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--on-surface-muted);
+  margin-bottom: var(--space-6);
+}
+.tp-crumb a { color: var(--primary); text-decoration: none; }
+.tp-crumb a:hover { text-decoration: underline; }
+.tp-crumb .tp-current {
+  color: var(--on-surface-muted);
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tp-article__head { max-width: 760px; margin: 0 auto var(--space-6); }
+.tp-article__meta {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: var(--space-3);
+}
+.tp-article__title {
+  font-family: var(--font-sans);
+  font-weight: 200;
+  font-size: 44px;
+  line-height: 52px;
+  letter-spacing: -0.025em;
+  color: var(--on-surface);
+}
+.tp-article__lede {
+  margin-top: var(--space-4);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 19px;
+  line-height: 30px;
+  color: var(--on-surface-variant);
+}
+.tp-article__cover {
+  display: block;
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto var(--space-7);
+  border-radius: var(--radius-3);
+  border: 1px solid var(--border-card);
+}
+
+/* ---- Prose (rendered Markdown) — comfortable, editorial reading column ----
+   Tuned for dynamic, effortless reading: ~68ch measure, 18px/1.8 body, a gold
+   drop cap to open, gold-ruled section headings, and disciplined list markers. */
+.tp-article__body { max-width: 700px; margin: 0 auto; }
+
+.tp-prose { font-size: 18px; line-height: 1.8; color: var(--on-surface-variant); }
+.tp-prose > * + * { margin-top: var(--space-5); }   /* consistent vertical rhythm */
+
+.tp-prose p { font-size: 18px; line-height: 1.8; color: var(--on-surface-variant); }
+
+/* Editorial gold drop cap on the opening paragraph */
+.tp-prose > p:first-of-type::first-letter {
+  float: left;
+  font-family: var(--font-display);
+  font-size: 66px;
+  line-height: 0.82;
+  margin: 6px 14px 0 0;
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.tp-prose h2 {
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-3);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 28px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--on-surface);
+}
+.tp-prose h2::before {                /* short gold rule above each section */
+  content: "";
+  display: block;
+  width: 32px;
+  height: 1px;
+  margin-bottom: var(--space-4);
+  background: var(--gold-gradient);
+}
+.tp-prose h3 {
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-2);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 1.3;
+  color: var(--on-surface);
+}
+
+.tp-prose ul, .tp-prose ol { list-style: none; padding: 0; }
+.tp-prose li {
+  position: relative;
+  padding-left: var(--space-5);
+  margin-top: var(--space-3);
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--on-surface-variant);
+}
+.tp-prose ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 15px;
+  width: 14px;
+  height: 1px;
+  background: var(--gold-gradient);
+}
+.tp-prose ol { counter-reset: tp-ol; }
+.tp-prose ol li::before {
+  counter-increment: tp-ol;
+  content: counter(tp-ol, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 3px;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--primary);
+}
+
+.tp-prose a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.tp-prose strong { color: var(--on-surface); font-weight: 600; }
+.tp-prose em { font-style: italic; }
+.tp-prose blockquote {
+  margin: var(--space-6) 0;
+  padding: var(--space-2) 0 var(--space-2) var(--space-5);
+  border-left: 2px solid var(--primary);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 24px;
+  line-height: 1.5;
+  color: var(--on-surface);
+}
+.tp-prose hr {
+  border: 0;
+  height: 1px;
+  background: var(--hairline);
+  margin: var(--space-7) 0;
+}

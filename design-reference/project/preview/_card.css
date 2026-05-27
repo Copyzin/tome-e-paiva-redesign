@@ -1,0 +1,68 @@
+/* Shared card base — keeps each preview card tight to 700×~150 default */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&display=swap');
+
+@font-face { font-family: 'Cookie Cutter Culture'; src: url('../fonts/Cookie_Cutter_Culture.otf') format('opentype'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Relais'; src: url('../fonts/RelaisTrial-Light-BF645c450a1602f.otf') format('opentype'); font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Open Sans'; src: url('../fonts/OpenSans-Light.ttf') format('truetype'); font-weight: 300; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Open Sans'; src: url('../fonts/OpenSans-LightItalic.ttf') format('truetype'); font-weight: 300; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Montserrat'; src: url('../fonts/Montserrat-ExtraLight.ttf') format('truetype'); font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Montserrat'; src: url('../fonts/Montserrat-Light.ttf') format('truetype'); font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Montserrat'; src: url('../fonts/Montserrat-Regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Cormorant Garamond'; src: url('../fonts/CormorantGaramond-Regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: #111111;
+  color: #F2F0EC;
+  font-family: 'Montserrat', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.card {
+  width: 700px;
+  padding: 24px 28px;
+  background: #111111;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.eyebrow {
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #A97940;
+}
+
+.dim { color: #9A958C; }
+
+.row { display: flex; gap: 12px; align-items: center; }
+
+.swatch {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.swatch .chip {
+  width: 100%;
+  height: 64px;
+  border-radius: 2px;
+  border: 1px solid rgba(169,121,64,0.18);
+}
+.swatch .name {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #F2F0EC;
+}
+.swatch .hex {
+  font-size: 10.5px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  color: #9A958C;
+  letter-spacing: 0.04em;
+}
+
+.hairline { height: 1px; background: rgba(169,121,64,0.18); }

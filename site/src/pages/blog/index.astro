@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import BlogBackFab from '../../components/BlogBackFab.astro';
+import { getCollection } from 'astro:content';
+import '../../styles/blog.css';
+
+const posts = (await getCollection('blog', ({ data }) => (import.meta.env.PROD ? !data.draft : true)))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+<BaseLayout
+  title="Blog · Tomé & Paiva"
+  description="Artigos e análises sobre Direito do Trabalho, Previdenciário, Famílias e Sucessões, Civil e do Consumidor."
+>
+  <Navbar active="blog" />
+
+  <header class="tp-blog-head">
+    <div class="tp-container">
+      <div class="tp-section__eyebrow">Blog</div>
+      <h1 class="tp-section__title">Análises e <em>perspectivas</em> jurídicas.</h1>
+      <p class="tp-section__lede">
+        Conteúdo técnico e institucional sobre as cinco áreas de atuação do escritório.
+      </p>
+    </div>
+  </header>
+
+  <section class="tp-blog-list">
+    <div class="tp-container">
+      <div class="tp-blog-grid">
+        {posts.map((post) => <BlogCard post={post} />)}
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+  <BlogBackFab />
+</BaseLayout>

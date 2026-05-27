@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8"><title>Iconography — Lucide</title><link rel="stylesheet" href="_card.css">
+<style>
+  .tp-ico-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; }
+  .tp-ico-cell {
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    padding: 14px 6px;
+    border: 1px solid rgba(169,121,64,0.10);
+    border-radius: 2px;
+  }
+  .tp-ico-cell svg { width: 22px; height: 22px; stroke: #A97940; stroke-width: 1.25; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .tp-ico-name { font-size: 9.5px; letter-spacing: 0.08em; color: #9A958C; text-transform: uppercase; }
+</style>
+</head>
+<body><div class="card">
+  <div class="row" style="justify-content:space-between;align-items:baseline">
+    <div class="eyebrow">Ícones · Lucide · stroke 1.25</div>
+    <div class="dim" style="font-size:10.5px;letter-spacing:0.04em;font-family:ui-monospace,monospace">linecap:round · 22px</div>
+  </div>
+  <div class="tp-ico-grid">
+    <div class="tp-ico-cell"><i data-lucide="scale"></i><span class="tp-ico-name">scale</span></div>
+    <div class="tp-ico-cell"><i data-lucide="gavel"></i><span class="tp-ico-name">gavel</span></div>
+    <div class="tp-ico-cell"><i data-lucide="briefcase"></i><span class="tp-ico-name">briefcase</span></div>
+    <div class="tp-ico-cell"><i data-lucide="file-text"></i><span class="tp-ico-name">file</span></div>
+    <div class="tp-ico-cell"><i data-lucide="users"></i><span class="tp-ico-name">users</span></div>
+    <div class="tp-ico-cell"><i data-lucide="shield"></i><span class="tp-ico-name">shield</span></div>
+    <div class="tp-ico-cell"><i data-lucide="handshake"></i><span class="tp-ico-name">handshake</span></div>
+    <div class="tp-ico-cell"><i data-lucide="map-pin"></i><span class="tp-ico-name">map</span></div>
+  </div>
+  <div class="dim" style="font-size:10.5px;line-height:16px">Stroke fino (1.25 px) reforça o minimalismo institucional. Sem fills, sem cantos retos — apenas linha. Tamanhos: 18 inline · 22 cards · 28 destaques.</div>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>lucide.createIcons({attrs: { 'stroke-width': 1.25, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }});</script>
+</div></body></html>

@@ -1,0 +1,53 @@
+---
+import { SPECIALTIES } from '../data/specialties';
+import { WHATSAPP_URL, MAPS_DIRECTIONS_URL } from '../data/contact';
+const year = new Date().getFullYear();
+---
+<footer class="tp-footer">
+  <div class="tp-container">
+    <div class="tp-footer__grid">
+      <div class="tp-footer__brand">
+        <img src="/assets/logo-tome-paiva-gold.png" alt="Tomé e Paiva" />
+        <p>
+          Tomé &amp; Paiva, advogados associados.
+          Campinas / SP. Atuação em todo o território nacional.
+        </p>
+      </div>
+      <div class="tp-footer__col">
+        <h5>Navegação</h5>
+        <ul>
+          <li><a href="/#escritorio">Escritório</a></li>
+          <li><a href="/especialidades">Especialidades</a></li>
+          <li><a href="/#equipe">Equipe</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/#contato">Contato</a></li>
+        </ul>
+      </div>
+      <div class="tp-footer__col">
+        <h5>Áreas</h5>
+        <ul>
+          {SPECIALTIES.map((s) => (
+            <li><a href={`/especialidades#${s.id}`}>{s.title}</a></li>
+          ))}
+        </ul>
+      </div>
+      <div class="tp-footer__col">
+        <h5>Contato</h5>
+        <ul>
+          <li><a href="tel:+551933243864">(19) 3324 3864</a></li>
+          <li><a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">(19) 98978 6826</a></li>
+          <li><a href="mailto:david.tome@tomepaivaadvogados.com.br">david.tome@<br />tomepaivaadvogados.com.br</a></li>
+          <li><a href={MAPS_DIRECTIONS_URL} target="_blank" rel="noopener noreferrer">Endereço · Como chegar</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="tp-footer__bottom">
+      <div>© {year} TOMÉ &amp; PAIVA ADVOGADOS ASSOCIADOS</div>
+      <div>OAB/SP 443.938 · CAMPINAS/SP</div>
+    </div>
+    <div class="tp-footer__credit">
+      Site desenvolvido por
+      <a href="https://almeidaescaladigital.com/" target="_blank" rel="noopener noreferrer">Almeida Escala Digital</a>
+    </div>
+  </div>
+</footer>

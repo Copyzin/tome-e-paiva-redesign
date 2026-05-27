@@ -1,0 +1,32 @@
+---
+// primary / secondary / premium / ghost button. Renders <a> when href is set.
+interface Props {
+  variant?: 'primary' | 'secondary' | 'premium' | 'ghost';
+  href?: string;
+  iconRight?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+  [key: string]: unknown;
+}
+const { variant = 'primary', href, iconRight = false, type, class: extra, ...rest } = Astro.props;
+const cls = ['tp-btn', `tp-btn--${variant}`, extra].filter(Boolean).join(' ');
+---
+{href ? (
+  <a class={cls} href={href} {...rest}>
+    <span><slot /></span>
+    {iconRight && (
+      <span class="tp-btn__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+      </span>
+    )}
+  </a>
+) : (
+  <button class={cls} type={type ?? 'button'} {...rest}>
+    <span><slot /></span>
+    {iconRight && (
+      <span class="tp-btn__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+      </span>
+    )}
+  </button>
+)}

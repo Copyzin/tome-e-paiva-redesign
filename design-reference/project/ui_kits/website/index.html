@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-screen-label="Home · Landing">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tomé &amp; Paiva · Advogados Associados</title>
+<meta name="description" content="Escritório de advocacia em Campinas/SP. Direito do Trabalho, Previdenciário, Famílias e Sucessões, Civil e do Consumidor." />
+<link rel="icon" type="image/png" href="../../assets/logo-tome-paiva-gold.png" />
+<link rel="stylesheet" href="../../colors_and_type.css" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="Button.jsx"></script>
+<script type="text/babel" src="SpecialtyData.jsx"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="Navbar.jsx"></script>
+<script type="text/babel" src="Hero.jsx"></script>
+<script type="text/babel" src="About.jsx"></script>
+<script type="text/babel" src="Specialties.jsx"></script>
+<script type="text/babel" src="Team.jsx"></script>
+<script type="text/babel" src="Contact.jsx"></script>
+<script type="text/babel" src="Footer.jsx"></script>
+
+<script type="text/babel">
+function App() {
+  return (
+    <React.Fragment>
+      <Navbar active="home" />
+      <Hero />
+      <About />
+      <SpecialtiesPreview />
+      <Team />
+      <Contact />
+      <Footer />
+    </React.Fragment>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

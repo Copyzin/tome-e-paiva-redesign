@@ -1,0 +1,120 @@
+---
+// Contact section — info column + form. Real contact data from the business card.
+// NOTE: submission is currently a faithful front-end stub (mirrors the design).
+// Real delivery will be wired to a Hostinger PHP mail endpoint or a form service.
+import Button from './Button.astro';
+import { WHATSAPP_URL, MAPS_DIRECTIONS_URL, ADDRESS } from '../data/contact';
+
+const ICONS = {
+  pin: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>`,
+  phone: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.94.36 1.85.68 2.73a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.35-1.27a2 2 0 0 1 2.11-.45c.88.32 1.79.55 2.73.68A2 2 0 0 1 22 16.92Z"/></svg>`,
+  whatsapp: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg>`,
+  mail: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-10 5L2 7"/></svg>`,
+  globe: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z"/></svg>`,
+  directions: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>`,
+};
+
+const rows = [
+  { icon: ICONS.phone, label: 'Telefone', value: '(19) 3324 3864', href: 'tel:+551933243864' },
+  { icon: ICONS.whatsapp, label: 'WhatsApp', value: '(19) 98978 6826', href: WHATSAPP_URL },
+  { icon: ICONS.mail, label: 'E-mail', value: 'david.tome@tomepaivaadvogados.com.br', href: 'mailto:david.tome@tomepaivaadvogados.com.br' },
+  { icon: ICONS.globe, label: 'Site', value: 'tomepaivaadvogados.com.br', href: 'https://tomepaivaadvogados.com.br' },
+];
+---
+<section id="contato" class="tp-section tp-contact">
+  <div class="tp-container">
+    <div class="tp-section__header">
+      <div class="tp-section__eyebrow">Contato</div>
+      <h2 class="tp-section__title">Agende uma <em>reunião</em>.</h2>
+      <p class="tp-section__lede">
+        Primeira conversa sem compromisso, reservada e técnica. Responda
+        em até um dia útil.
+      </p>
+    </div>
+    <div class="tp-contact__grid">
+      <div class="tp-contact__info">
+        <a
+          href={MAPS_DIRECTIONS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="tp-contact__info-row tp-contact__info-row--address"
+        >
+          <span class="tp-contact__info-icon" set:html={ICONS.pin} />
+          <div>
+            <div class="tp-contact__info-label">Endereço</div>
+            <div class="tp-contact__info-value">{ADDRESS}</div>
+            <span class="tp-contact__directions" set:html={ICONS.directions + '<span>Como chegar</span>'} />
+          </div>
+        </a>
+        {rows.map((r) =>
+          r.href ? (
+            <a href={r.href} class="tp-contact__info-row" style="text-decoration: none">
+              <span class="tp-contact__info-icon" set:html={r.icon} />
+              <div>
+                <div class="tp-contact__info-label">{r.label}</div>
+                <div class="tp-contact__info-value">{r.value}</div>
+              </div>
+            </a>
+          ) : (
+            <div class="tp-contact__info-row">
+              <span class="tp-contact__info-icon" set:html={r.icon} />
+              <div>
+                <div class="tp-contact__info-label">{r.label}</div>
+                <div class="tp-contact__info-value">{r.value}</div>
+              </div>
+            </div>
+          )
+        )}
+      </div>
+
+      <form class="tp-contact__form" id="tp-contact-form" novalidate>
+        <div class="tp-form-field">
+          <label for="nome">Nome completo</label>
+          <input id="nome" name="nome" type="text" placeholder="Como devemos chamar você" required />
+        </div>
+        <div class="tp-form-field">
+          <label for="email">E-mail</label>
+          <input id="email" name="email" type="email" placeholder="seu@email.com" required />
+        </div>
+        <div class="tp-form-field">
+          <label for="tel">Telefone (opcional)</label>
+          <input id="tel" name="tel" type="tel" placeholder="(19) 99999 9999" />
+        </div>
+        <div class="tp-form-field">
+          <label for="msg">Descreva brevemente a demanda</label>
+          <textarea id="msg" name="msg" placeholder="Contexto, prazo, partes envolvidas" required></textarea>
+        </div>
+        <Button variant="primary" type="submit" iconRight>Enviar mensagem</Button>
+        <div style="font-size: 11px; color: var(--on-surface-muted); line-height: 18px">
+          Ao enviar, você concorda com nossa política de privacidade.
+          Suas informações são confidenciais.
+        </div>
+      </form>
+
+      <div class="tp-contact__form" id="tp-contact-success" style="display: none; justify-content: center; align-items: center; min-height: 360px">
+        <div class="tp-section__eyebrow">Mensagem recebida</div>
+        <div style="font-weight: 300; font-size: 28px; line-height: 1.2; color: var(--on-surface); margin-top: 12px; margin-bottom: 8px; text-align: center">
+          Obrigado pelo contato.
+        </div>
+        <p style="font-size: 15px; line-height: 24px; color: var(--on-surface-variant); text-align: center; max-width: 320px">
+          Retornaremos em até um dia útil.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('tp-contact-form') as HTMLFormElement | null;
+  const success = document.getElementById('tp-contact-success');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    // TODO: POST to /contact.php (Hostinger) or a form service before going live.
+    form.style.display = 'none';
+    if (success) success.style.display = 'flex';
+  });
+</script>
