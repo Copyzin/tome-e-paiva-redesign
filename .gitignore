@@ -9,6 +9,9 @@ dist/
 # verification / tooling scratch
 .playwright-mcp/
 
+# local scratch — design export prompt, kept on disk but not committed
+prompt-claude-code-header-hero.md
+
 # env / secrets
 .env
 .env.*

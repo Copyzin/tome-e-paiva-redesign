@@ -26,7 +26,7 @@ export const SPECIALTIES: Specialty[] = [
     title: 'Direito do Trabalho',
     iconName: 'briefcase',
     short: 'Defesa de direitos trabalhistas, negociações coletivas e contencioso estratégico para empregados e empregadores.',
-    long: 'Atuação consultiva e contenciosa em relações de trabalho. Assessoramos empregados e empregadores em negociações coletivas, compliance trabalhista, defesa em reclamatórias e estruturação de contratos especiais.',
+    long: 'Atuação consultiva e contenciosa em relações de trabalho. Ação trabalhista, compliance trabalhista, defesa em reclamatórias e estruturação de contratos especiais.',
     bullets: [
       'Reclamatórias trabalhistas (defesa e ajuizamento)',
       'Acordos individuais e coletivos',
@@ -34,7 +34,7 @@ export const SPECIALTIES: Specialty[] = [
       'Rescisões, verbas e equiparações salariais',
       'Defesa em ações de assédio e dano moral',
     ],
-    aside: { eyebrow: 'Tese de destaque', title: 'Reconhecimento de vínculo', body: 'Casos de PJ, terceirização e plataformas digitais. Análise da realidade da prestação acima da forma contratual.' },
+    aside: { eyebrow: 'Tese de destaque', title: 'Reconhecimento de vínculo', body: 'Trabalho informal, trabalho domestico, trabalho autonomo. Análise da realidade da prestação acima da forma contratual.' },
   },
   {
     id: 'previdenciario',
@@ -46,11 +46,11 @@ export const SPECIALTIES: Specialty[] = [
     bullets: [
       'Aposentadoria por tempo, idade e regras de transição',
       'Auxílio-doença, BPC/LOAS e pensão por morte',
-      'Revisão da vida toda e tema 1.102 STF',
+      'Auxilio acidente',
       'Concessão administrativa e recurso ao CRPS',
       'Planejamento previdenciário sob medida',
     ],
-    aside: { eyebrow: 'Para autônomos', title: 'Plano de contribuição', body: 'Cálculo do recolhimento ideal para maximizar o benefício futuro. Análise carreira a carreira.' },
+    aside: { eyebrow: 'Para autônomos', title: 'Planejamento previdenciario', body: 'Cálculo do recolhimento ideal para maximizar o benefício futuro. Análise carreira a carreira.' },
   },
   {
     id: 'familia',
@@ -99,5 +99,22 @@ export const SPECIALTIES: Specialty[] = [
       'Vazamento de dados e LGPD aplicada ao consumo',
     ],
     aside: { eyebrow: 'Volume alto', title: 'Atendimento em escala', body: 'Estrutura para conduzir múltiplas demandas similares (bancos, aéreas, e-commerce) com eficiência processual.' },
+  },
+  {
+    id: 'consultoria',
+    num: '06',
+    title: 'Consultoria Jurídica',
+    iconName: 'compass',
+    short: 'Assessoria jurídica preventiva e estratégica para empresas e pessoas físicas, com pareceres, contratos e gestão de riscos.',
+    long: 'Atuação consultiva contínua para prevenir litígios e dar segurança às decisões do cliente. Emitimos pareceres, revisamos contratos, estruturamos operações e implementamos rotinas de conformidade, com acompanhamento jurídico recorrente.',
+    bullets: [
+      'Pareceres e opiniões legais fundamentados',
+      'Elaboração e revisão de contratos',
+      'Due diligence e gestão de riscos jurídicos',
+      'Compliance e adequação à LGPD',
+      'Assessoria jurídica recorrente para empresas',
+      'Mitigação de passivo trabalhista',
+    ],
+    aside: { eyebrow: 'Prevenção', title: 'Acompanhamento contínuo', body: 'Consultoria mensal para antecipar riscos e dar respaldo às decisões antes que se tornem litígio.' },
   },
 ];

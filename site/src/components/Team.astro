@@ -1,35 +1,92 @@
 ---
 // Partner / associate portrait cards (monogram placeholders — real photos pending).
+// Each card carries the Hero's iridescent "black card" tilt/glow effect, applied
+// INDEPENDENTLY per card (see the per-card closures in the script below).
 interface Member { name: string; role: string; oab: string; initial: string; }
 const TEAM: Member[] = [
   { name: 'David Tomé', role: 'Sócio fundador', oab: 'OAB/SP 443.938', initial: 'D' },
-  { name: 'A. Paiva', role: 'Sócio fundador', oab: 'OAB/SP', initial: 'P' },
-  { name: 'Equipe associada', role: 'Advogados associados', oab: 'Cinco áreas de atuação', initial: 'T' },
+  { name: 'Igor Paiva', role: 'Sócio fundador', oab: 'OAB/SP 443.089', initial: 'P' },
 ];
 ---
 <section id="equipe" class="tp-section" style="background: var(--surface-dim)">
   <div class="tp-container">
     <div class="tp-section__header">
       <div class="tp-section__eyebrow">Equipe</div>
-      <h2 class="tp-section__title">Acompanhamento <em>próximo</em>, sócio a sócio.</h2>
+      <h2 class="tp-section__title">Acompanhamento <em>próximo</em>, como você merece.</h2>
       <p class="tp-section__lede">
-        Cada demanda é conduzida por um sócio responsável, com equipe associada
-        dedicada à área. Sem terceirização do contato com o cliente.
+        Cada demanda é conduzida por um sócio responsável, com atendimento
+        pessoal e humanizado.
       </p>
     </div>
     <div class="tp-team__grid">
       {TEAM.map((m) => (
-        <div class="tp-team-card">
-          <div class="tp-team-card__portrait">
-            <span class="tp-team-card__portrait-initial">{m.initial}</span>
-          </div>
-          <div class="tp-team-card__body">
-            <div class="tp-team-card__role">{m.role}</div>
-            <div class="tp-team-card__name">{m.name}</div>
-            <div class="tp-team-card__oab">{m.oab}</div>
+        <div class="tp-team-card__fx">
+          <div class="tp-team-card__halo" aria-hidden="true"></div>
+          <div class="tp-team-card">
+            <div class="tp-team-card__portrait">
+              <span class="tp-team-card__portrait-initial">{m.initial}</span>
+            </div>
+            <div class="tp-team-card__body">
+              <div class="tp-team-card__role">{m.role}</div>
+              <div class="tp-team-card__name">{m.name}</div>
+              <div class="tp-team-card__oab">{m.oab}</div>
+            </div>
+            <div class="tp-team-card__iri" aria-hidden="true"></div>
+            <div class="tp-team-card__spec" aria-hidden="true"></div>
+            <div class="tp-team-card__noise" aria-hidden="true"></div>
+            <div class="tp-team-card__edge" aria-hidden="true"></div>
           </div>
         </div>
       ))}
     </div>
   </div>
 </section>
+
+<script>
+  // Iridescent tilt/glow ported from Hero.astro, but applied to EACH team card
+  // independently: every card gets its own closure (own rect, own overlay nodes,
+  // own last-cursor state) so the two cards never interfere with each other.
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (finePointer) {
+    // defaults ported from HERO_CARD_DEFAULTS
+    const t = { tiltDeg: 5, scale: 1.02, glowSize: 55, glowIntensity: 0.55 };
+    const h1 = 38, h2 = 98, h3 = 218; // iridescenceHue base + offsets
+
+    const cards = document.querySelectorAll<HTMLElement>('.tp-team-card');
+    cards.forEach((card) => {
+      const halo = card.parentElement?.querySelector<HTMLElement>('.tp-team-card__halo') ?? null;
+      const iri = card.querySelector<HTMLElement>('.tp-team-card__iri');
+      const spec = card.querySelector<HTMLElement>('.tp-team-card__spec');
+      if (!halo || !iri || !spec) return;
+
+      let lastX = 50, lastY = 50;
+      const render = (x: number, y: number, active: boolean) => {
+        const rotY = ((x - 50) / 50) * t.tiltDeg;
+        const rotX = -((y - 50) / 50) * t.tiltDeg;
+        const scale = active ? t.scale : 1;
+        card.style.transform = `perspective(1200px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${scale})`;
+        halo.style.opacity = active ? '0.7' : '0.28';
+        halo.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(226,192,120,0.55) 0%, rgba(169,121,64,0.30) 28%, rgba(169,121,64,0) 65%)`;
+        iri.style.background = `conic-gradient(from ${x * 3.6}deg at ${x}% ${y}%, hsla(${h1},80%,60%,0.55) 0deg, hsla(${h2},70%,55%,0) 90deg, hsla(${h3},65%,60%,0.45) 180deg, hsla(${h1},80%,70%,0) 270deg, hsla(${h1},80%,60%,0.55) 360deg)`;
+        spec.style.opacity = active ? String(t.glowIntensity) : '0';
+        spec.style.background = `radial-gradient(circle ${t.glowSize}% at ${x}% ${y}%, rgba(255,220,160,0.45) 0%, rgba(195,145,80,0.25) 28%, rgba(169,121,64,0) 60%)`;
+      };
+
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        lastX = ((e.clientX - r.left) / r.width) * 100;
+        lastY = ((e.clientY - r.top) / r.height) * 100;
+        card.classList.add('is-active');
+        render(lastX, lastY, true);
+      });
+      card.addEventListener('mouseleave', () => {
+        card.classList.remove('is-active');
+        // Return to the neutral resting state: flat tilt (rotateX/Y = 0),
+        // scale 1. Re-center the tracked position so the next hover starts clean.
+        lastX = 50;
+        lastY = 50;
+        render(lastX, lastY, false);
+      });
+    });
+  }
+</script>

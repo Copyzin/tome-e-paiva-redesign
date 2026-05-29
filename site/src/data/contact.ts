@@ -2,7 +2,7 @@
 // Consumed by the Navbar CTA, the Contact section and the Footer — edit here
 // once and it propagates everywhere (same pattern as specialties.ts).
 
-const WHATSAPP_NUMBER = '5519989786826';
+const WHATSAPP_NUMBER = '551933243864';
 
 // Every WhatsApp redirect carries this note so the client gets direct
 // attribution that the lead arrived through the website.
@@ -11,6 +11,15 @@ const WHATSAPP_MESSAGE =
 
 export const WHATSAPP_URL =
   `https://wa.me/${WHATSAPP_NUMBER}?text=` + encodeURIComponent(WHATSAPP_MESSAGE);
+
+// Builds a WhatsApp link pre-filled with interest in a specific practice area,
+// so the lead arrives attributed to the site and to the area they clicked.
+// Used by the "Falar com a equipe" CTA on /especialidades (see SpecialtyDetail).
+export function whatsappUrlFor(area: string): string {
+  const message =
+    `Olá! Vim pelo site do escritório Tomé & Paiva e tenho interesse na área de ${area}. Gostaria de falar com a equipe.`;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=` + encodeURIComponent(message);
+}
 
 // Institutional address (as displayed) + a Google Maps *directions* link that
 // opens with the route pre-set from the visitor's location to the office.

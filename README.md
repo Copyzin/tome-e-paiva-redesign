@@ -10,16 +10,33 @@ para hospedagem na **Hostinger**.
 .
 ├─ site/               # aplicação Astro (todo o código do site)
 │  ├─ public/          # arquivos estáticos servidos como estão (fonts/, assets/, robots.txt, .htaccess)
-│  └─ src/
-│     ├─ components/   # componentes .astro (Navbar, Hero, About, Specialties, ...)
-│     ├─ data/         # specialties.ts (fonte única das 5 áreas de atuação)
-│     ├─ layouts/      # BaseLayout.astro (head, SEO, fonts)
-│     ├─ pages/        # rotas: index, especialidades, blog/
-│     ├─ content/      # posts do blog (Markdown) — Fase B
-│     └─ styles/       # tokens.css (cores/tipografia) + site.css (componentes)
-├─ design-reference/   # pacote original do Claude Design — referência visual (NÃO editar)
+│  ├─ src/
+│  │  ├─ components/   # componentes .astro (Navbar, Hero, About, Specialties, ...) ← markup do <body>
+│  │  ├─ data/         # specialties.ts (fonte única das 5 áreas de atuação)
+│  │  ├─ layouts/      # BaseLayout.astro (o <head>: SEO, meta, fonts) — vale para todas as páginas
+│  │  ├─ pages/        # rotas: index.astro (HOME), especialidades.astro, blog/
+│  │  ├─ content/      # posts do blog (Markdown) — Fase B
+│  │  └─ styles/       # tokens.css (cores/tipografia) + site.css (componentes)
+│  └─ dist/            # SAÍDA GERADA por `npm run build` → index.html etc. (NÃO editar à mão)
+├─ design-reference/   # pacote original do Claude Design — referência visual (NÃO editar, NÃO é o site)
 └─ brand-source/       # ativos de marca originais (logos, fonts, referências, PDF de identidade)
 ```
+
+## Onde está o `index.html` que roda o site (leia antes de editar)
+
+Este site é gerado pelo **Astro** — o HTML **não** é escrito à mão num único arquivo. Em vez disso,
+cada página é montada a partir de componentes `.astro` e o HTML final é **gerado** no `build`.
+
+| O que você procura | Onde fica |
+|---|---|
+| **O `index.html` que de fato roda/é publicado** | `site/dist/index.html` — **gerado** por `npm run build`. ⚠️ É reescrito a cada build; editar à mão aqui **se perde** no próximo build. |
+| **O código-fonte da home (onde editar de verdade)** | `site/src/pages/index.astro` + os componentes que ela monta em `site/src/components/` (`Navbar.astro`, `Hero.astro`, `About.astro`, …) |
+| **Tags no `<head>`** (meta, SEO, scripts de analytics/rastreamento, etc.) | `site/src/layouts/BaseLayout.astro` — vale para **todas** as páginas |
+| **Só referência visual** | `design-reference/project/.../index.html` — é o mock original, **não** é o site que roda; mexer aqui não tem efeito nenhum |
+
+**Para adicionar tags no HTML:** edite o **fonte** (`.astro` em `site/src/`), não o `dist/`. Tags de
+conteúdo/estrutura vão no componente correspondente em `site/src/components/`; tags de `<head>` vão no
+`BaseLayout.astro`. Depois rode `npm run build` para regerar `site/dist/` (é essa pasta que vai para a Hostinger).
 
 ## Desenvolvimento
 

@@ -3,7 +3,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Navbar from '../components/Navbar.astro';
 import SpecialtyDetail from '../components/SpecialtyDetail.astro';
 import Footer from '../components/Footer.astro';
-import ScrollTopButton from '../components/ScrollTopButton.astro';
 import { SPECIALTIES } from '../data/specialties';
 ---
 <BaseLayout
@@ -19,7 +18,7 @@ import { SPECIALTIES } from '../data/specialties';
         <span>·</span>
         <span class="tp-current">Especialidades</span>
       </nav>
-      <h1>Cinco frentes do Direito. Uma <em>conduta</em>.</h1>
+      <h1>Vários <em>direitos</em>. Uma <em>conduta</em>.</h1>
       <p>
         Atuação consultiva e contenciosa em demandas estratégicas. Selecione
         a área para conhecer escopo, teses recorrentes e equipe responsável.
@@ -34,5 +33,4 @@ import { SPECIALTIES } from '../data/specialties';
   </section>
 
   <Footer />
-  <ScrollTopButton />
 </BaseLayout>

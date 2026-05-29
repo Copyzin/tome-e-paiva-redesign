@@ -1,6 +1,7 @@
 ---
 // Full row used on /especialidades for each practice area.
 import type { Specialty } from '../data/specialties';
+import { whatsappUrlFor } from '../data/contact';
 interface Props { spec: Specialty; }
 const { spec } = Astro.props;
 ---
@@ -17,7 +18,7 @@ const { spec } = Astro.props;
     <div class="tp-spec-row__aside-eyebrow">{spec.aside.eyebrow}</div>
     <h4>{spec.aside.title}</h4>
     <p>{spec.aside.body}</p>
-    <a class="tp-spec-card__cta" href="/#contato" style="margin-top: 8px">
+    <a class="tp-spec-card__cta" href={whatsappUrlFor(spec.title)} target="_blank" rel="noopener noreferrer" style="margin-top: 8px">
       Falar com a equipe
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
     </a>

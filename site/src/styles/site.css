@@ -71,31 +71,43 @@ button { font-family: inherit; cursor: pointer; }
   margin: 0 auto;
   padding: 0 var(--margin-desktop);
 }
-.tp-nav__brand { display: flex; align-items: center; gap: 12px; padding-right: 22px; }
-.tp-nav__brand img { height: 36px; }
+.tp-nav__brand { display: flex; align-items: center; padding-right: 22px; }
 .tp-nav__divider {
   width: 1px; height: 32px;
   background: linear-gradient(180deg, transparent 0%, rgba(169,121,64,0.55) 50%, transparent 100%);
   flex-shrink: 0;
 }
-.tp-nav__brand-text {
-  font-family: var(--font-sans);
-  font-weight: 200;             /* Montserrat ExtraLight */
-  font-size: 13px;
-  letter-spacing: 0.24em;
-  color: var(--on-surface);
-  line-height: 1;
-  display: inline-flex; align-items: baseline; gap: 0.45em;
+
+/* ----- Brand lockup (scalable: font-size on .tp-logo drives the whole mark) ----- */
+.tp-logo {
+  display: inline-flex; align-items: center; gap: 0.62em;
+  font-size: 20px;
+  text-decoration: none; line-height: 1; white-space: nowrap;
 }
-.tp-nav__brand-text .tp-amp {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 500;
-  font-size: 0.95em;
-  color: var(--primary-bright);
-  letter-spacing: 0;
-  transform: translateY(-0.05em);
+.tp-logo__mark { height: 2.18em; width: auto; display: block; flex-shrink: 0; }
+.tp-logo__words { display: flex; flex-direction: column; align-items: stretch; gap: 0.2em; }
+.tp-logo__name {
+  font-family: var(--font-sans); font-weight: 700; font-size: 1em;
+  letter-spacing: 0.2em; display: flex; justify-content: center;
+  align-items: baseline; gap: 0.46em; line-height: 1; padding-left: 0.2em;
+  background: var(--gold-gradient); -webkit-background-clip: text;
+  background-clip: text; color: transparent;
 }
+.tp-logo__name .tp-logo__amp {
+  font-family: var(--font-display); font-weight: 400; font-size: 0.92em;
+  letter-spacing: 0; align-self: center; position: relative; top: 2px;
+  background: var(--gold-gradient); -webkit-background-clip: text;
+  background-clip: text; color: transparent;
+}
+.tp-logo__sub {
+  font-family: var(--font-sans); font-weight: 700; font-size: 9px;
+  text-transform: lowercase; display: flex; justify-content: space-between;
+  align-items: baseline; letter-spacing: 0;
+  background: var(--gold-gradient); -webkit-background-clip: text;
+  background-clip: text; color: transparent;
+}
+.tp-logo__sub span { display: inline-block; }
+.tp-logo__sub .tp-logo__sub-gap { flex: 0 0 0.4em; }
 .tp-nav__links {
   display: flex; gap: 28px;
   flex: 1; justify-content: center;
@@ -191,7 +203,7 @@ button { font-family: inherit; cursor: pointer; }
   .tp-nav__inner { padding: 0 var(--margin-tablet); gap: 16px; }
   .tp-nav__links, .tp-nav__cta { display: none; }
   .tp-nav__mobile-toggle { display: inline-flex; margin-left: auto; }
-  .tp-nav__brand-text, .tp-nav__divider { display: none; }
+  .tp-logo__words, .tp-nav__divider { display: none; }
   .tp-nav__brand { padding-right: 0; }
 }
 @media (max-width: 640px) {
@@ -226,38 +238,70 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ----- Hero ----- */
 .tp-hero {
+  --hero-inset: clamp(40px, 7.5vw, 184px);  /* fluid side breathing room (hero only) */
+  --base-op: 0.11;          /* resting presence of the background symbol */
+  --spot-r: 520px;          /* spotlight radius */
+  --spot-bright: 1.39;      /* brightness of the lit copy */
+  --logo-scale: 1.4;        /* scale of the background symbol */
   position: relative;
   min-height: 100vh;
   padding-top: 76px;
-  display: flex; align-items: center;
   overflow: hidden;
   background: var(--surface-dim);
+  isolation: isolate;
 }
 .tp-hero__bg {
-  position: absolute; inset: 0;
+  position: absolute; inset: 0; z-index: 0;
   background:
-    radial-gradient(circle at 75% 30%, rgba(169,121,64,0.18) 0%, transparent 55%),
-    radial-gradient(circle at 20% 80%, rgba(169,121,64,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 72% 38%, rgba(169,121,64,0.16) 0%, transparent 56%),
+    radial-gradient(circle at 12% 88%, rgba(169,121,64,0.07) 0%, transparent 52%),
     linear-gradient(180deg, #0B0B0B 0%, #111111 60%, #0B0B0B 100%);
 }
-.tp-hero__symbol {
-  position: absolute;
-  right: -80px; top: 50%;
-  transform: translateY(-50%);
-  height: 720px;
-  opacity: 0.08;
-  pointer-events: none;
-  filter: drop-shadow(0 0 24px rgba(169,121,64,0.6));
+.tp-hero__particles {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  z-index: 2; pointer-events: none;
 }
-.tp-hero__inner {
-  position: relative; z-index: 2;
-  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px;
-  align-items: center;
-  width: 100%;
+
+/* Parallax brand symbol — a faint base copy + a brighter copy revealed only where
+   the cursor-tracked radial mask crosses the PNG's own gold alpha (so just the
+   artwork lights up, never the rectangle or the background). */
+.tp-hero__logo {
+  position: absolute; z-index: 1; top: 50%; right: clamp(-120px, -3vw, 0px);
+  width: calc(min(64vw, 760px) * var(--logo-scale, 1));
+  aspect-ratio: 1232 / 835;            /* matches the gold PNG */
+  transform: translateY(-50%); pointer-events: none;
 }
+.tp-hero__logo-layer {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
+  transform: translate3d(var(--px, 0px), var(--py, 0px), 0); will-change: transform;
+}
+.tp-hero__logo-base {
+  opacity: var(--base-op);
+  filter: drop-shadow(0 0 30px rgba(169,121,64,0.35));
+}
+.tp-hero__logo-lit {
+  opacity: var(--spot-op, 0);
+  filter: brightness(var(--spot-bright)) saturate(1.08) drop-shadow(0 0 8px rgba(226,192,120,0.28));
+  -webkit-mask-image: radial-gradient(circle var(--spot-r) at var(--mx, -999px) var(--my, -999px),
+    rgba(0,0,0,1) 0%, rgba(0,0,0,.96) 18%, rgba(0,0,0,.82) 34%,
+    rgba(0,0,0,.55) 52%, rgba(0,0,0,.28) 70%, rgba(0,0,0,.1) 85%, transparent 100%);
+          mask-image: radial-gradient(circle var(--spot-r) at var(--mx, -999px) var(--my, -999px),
+    rgba(0,0,0,1) 0%, rgba(0,0,0,.96) 18%, rgba(0,0,0,.82) 34%,
+    rgba(0,0,0,.55) 52%, rgba(0,0,0,.28) 70%, rgba(0,0,0,.1) 85%, transparent 100%);
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  transition: opacity 620ms ease;
+}
+
+.tp-hero__layout {
+  position: relative; z-index: 3; min-height: 100vh; box-sizing: border-box;
+  padding: clamp(0px, calc(16vh - 139px), 49px) var(--hero-inset) clamp(56px, 9vh, 104px);
+  display: flex; flex-direction: column; justify-content: space-between; gap: 48px;
+}
+.tp-hero__top { max-width: min(60ch, 760px); }
+.tp-hero__bottom { max-width: 620px; display: flex; flex-direction: column; align-items: flex-start; }
 .tp-hero__eyebrow {
   display: flex; align-items: center; gap: 14px;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
 .tp-hero__eyebrow span {
   font-weight: 600; font-size: 11px;
@@ -268,10 +312,11 @@ button { font-family: inherit; cursor: pointer; }
   width: 56px; height: 1px; background: var(--gold-gradient);
 }
 .tp-hero h1 {
-  font-weight: 200; font-size: 72px; line-height: 1.05;
+  font-weight: 200; font-size: clamp(44px, 6.2vw, 88px); line-height: 1.04;
   letter-spacing: -0.03em;
-  margin-bottom: 28px;
+  margin: 0;
   color: var(--on-surface);
+  text-wrap: balance;
 }
 .tp-hero h1 em {
   font-style: italic;
@@ -284,125 +329,16 @@ button { font-family: inherit; cursor: pointer; }
 .tp-hero p {
   font-size: 18px; line-height: 30px;
   color: var(--on-surface-variant);
-  max-width: 520px;
-  margin-bottom: 40px;
+  max-width: 480px;
+  margin: 0 0 32px;
 }
-.tp-hero__cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
-.tp-hero__visual {
-  display: flex; align-items: center; justify-content: center;
-  position: relative;
-}
-.tp-hero__visual img { height: 360px; width: auto; }
-
-/* ===== Iridescent lockup card (Hero) ===== */
-.iri-stage {
-  perspective: 1200px;
-  display: flex; align-items: center; justify-content: center;
-  padding: 24px;
-  position: relative;
-}
-/* Halo lives OUTSIDE the card so the card itself has perfectly symmetric edges.
-   The card sits on top of the halo within the stage. */
-.iri-stage__halo {
-  position: absolute;
-  width: 70%; aspect-ratio: 1 / 1;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  filter: blur(56px);
-  pointer-events: none;
-  z-index: 0;
-  transition: opacity 320ms;
-}
-.iri-card {
-  position: relative;
-  width: 362px;
-  aspect-ratio: 1 / 1;
-  border-radius: 6px;
-  overflow: hidden;                  /* now actually clips children */
-  transition: transform 320ms cubic-bezier(0.2, 0, 0.2, 1),
-              box-shadow 320ms cubic-bezier(0.2, 0, 0.2, 1);
-  /* Inset hairline only — no outer drop shadow to avoid asymmetric edges */
-  box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset;
-  will-change: transform;
-  cursor: pointer;
-  z-index: 1;
-  border: 1px solid rgba(169, 121, 64, calc(0.32 * var(--border-a, 1)));
-}
-.iri-card.is-active {
-  box-shadow:
-    0 1px 0 rgba(255,255,255,0.08) inset,
-    0 0 0 1px rgba(226, 192, 120, calc(0.22 * var(--border-a, 1)));
-}
-.iri-card__image {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  user-select: none; -webkit-user-drag: none;
-  z-index: 1;
-  transform: translateZ(0);
-}
-/* top edge gold hairline that intensifies on hover */
-.iri-card__edge {
-  position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(226, 192, 120, 0.9) 30%,
-    rgba(255, 240, 200, 1) 50%,
-    rgba(226, 192, 120, 0.9) 70%,
-    transparent 100%);
-  z-index: 4;
-  transition: opacity 320ms;
-}
-/* iridescent conic sheen — clipped to card by overflow:hidden */
-.iri-card__iri {
-  position: absolute; inset: 0;       /* no negative inset — leaks if any escape */
-  z-index: 2;
-  mix-blend-mode: color-dodge;
-  filter: blur(28px);
-  pointer-events: none;
-  transition: opacity 280ms;
-}
-/* specular cursor highlight */
-.iri-card__spec {
-  position: absolute; inset: 0;
-  z-index: 3;
-  mix-blend-mode: screen;
-  pointer-events: none;
-  transition: opacity 220ms;
-}
-/* film grain noise */
-.iri-card__noise {
-  position: absolute; inset: 0;
-  z-index: 4;
-  background-image: url('/assets/noise.svg');
-  background-size: 180px 180px;
-  background-repeat: repeat;
-  mix-blend-mode: screen;
-  pointer-events: none;
-}
-/* outer halo glow handled by .iri-stage__halo now — keep this hidden */
-.iri-card__halo { display: none; }
+.tp-hero__cta-row { display: flex; gap: 14px; flex-wrap: nowrap; }
+.tp-hero__cta-row .tp-btn { white-space: nowrap; flex: 0 0 auto; }
 
 @media (max-width: 1024px) {
-  .iri-card { width: 260px; }
-}
-@media (max-width: 640px) {
-  .iri-card { width: 220px; }
-}
-@media (max-width: 1024px) {
-  .tp-hero { min-height: auto; padding-top: 120px; padding-bottom: var(--space-8); }
-  .tp-hero__inner { grid-template-columns: 1fr; gap: 48px; }
-  .tp-hero__visual { order: -1; }
-  .tp-hero__visual img { height: 200px; }
-  .tp-hero h1 { font-size: 48px; line-height: 1.08; }
-  .tp-hero__symbol { display: none; }
-}
-@media (max-width: 640px) {
-  .tp-hero h1 { font-size: 34px; line-height: 1.1; }
-  .tp-hero p { font-size: 15px; line-height: 26px; }
-  .tp-hero__cta-row { flex-direction: column; align-items: stretch; }
-  .tp-hero__cta-row .tp-btn { width: 100%; justify-content: center; }
+  .tp-hero { min-height: auto; }
+  .tp-hero__logo { width: 74vw; right: -10vw; opacity: .85; }
+  .tp-hero__layout { min-height: auto; padding: 132px var(--hero-inset) 72px; gap: 220px; }
 }
 
 /* ----- Buttons ----- */
@@ -707,15 +643,28 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ----- Team ----- */
 .tp-team__grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  column-gap: var(--margin-desktop); padding-inline: var(--margin-desktop);
 }
-@media (max-width: 1024px) { .tp-team__grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 640px)  { .tp-team__grid { grid-template-columns: 1fr; } }
+@media (max-width: 1024px) { .tp-team__grid { column-gap: var(--margin-tablet); padding-inline: var(--margin-tablet); } }
+@media (max-width: 640px)  { .tp-team__grid { grid-template-columns: 1fr; padding-inline: 0; } }
 .tp-team-card {
   background: var(--surface-container-low);
   border: 1px solid var(--border-card);
   border-radius: var(--radius-3);
   padding: 0; overflow: hidden;
+  position: relative;
+  z-index: 1;
+  transition: transform 320ms cubic-bezier(0.2, 0, 0.2, 1),
+              box-shadow 320ms cubic-bezier(0.2, 0, 0.2, 1),
+              border-color 320ms cubic-bezier(0.2, 0, 0.2, 1);
+  will-change: transform;
+}
+.tp-team-card.is-active {
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.08) inset,
+    0 0 0 1px rgba(226, 192, 120, 0.22);
+  border-color: rgba(169, 121, 64, 0.45);
 }
 .tp-team-card__portrait {
   aspect-ratio: 4 / 5;
@@ -736,6 +685,10 @@ button { font-family: inherit; cursor: pointer; }
 .tp-team-card__body {
   padding: 24px;
   display: flex; flex-direction: column; gap: 6px;
+  /* keep text crisp above the iridescent overlays (shimmer still shows through
+     the transparent background) */
+  position: relative;
+  z-index: 5;
 }
 .tp-team-card__name {
   font-weight: 300; font-size: 22px; line-height: 1.2;
@@ -751,6 +704,68 @@ button { font-family: inherit; cursor: pointer; }
   font-family: ui-monospace, monospace;
   letter-spacing: 0.04em;
   margin-top: 8px;
+}
+
+/* ----- Team card: black-card (iridescent tilt) effect -----
+   Layout-neutral wrapper: it becomes the grid item but adds no padding/border,
+   so the card keeps its exact resting size and position. It exists only to host
+   the outer halo BEHIND the card (the card's own overflow:hidden would clip it). */
+.tp-team-card__fx { position: relative; }
+.tp-team-card__halo {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  filter: blur(48px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.28;
+  background: radial-gradient(circle at 50% 50%, rgba(226,192,120,0.55) 0%, rgba(169,121,64,0.30) 28%, rgba(169,121,64,0) 65%);
+  transition: opacity 320ms;
+}
+/* iridescent conic sheen — clipped to the card by its overflow:hidden */
+.tp-team-card__iri {
+  position: absolute; inset: 0;
+  z-index: 2;
+  mix-blend-mode: color-dodge;
+  filter: blur(28px);
+  pointer-events: none;
+  opacity: 0.22;
+  background: conic-gradient(from 180deg at 50% 50%, hsla(38,80%,60%,0.55) 0deg, hsla(98,70%,55%,0) 90deg, hsla(218,65%,60%,0.45) 180deg, hsla(38,80%,70%,0) 270deg, hsla(38,80%,60%,0.55) 360deg);
+  transition: opacity 280ms;
+}
+/* specular cursor highlight */
+.tp-team-card__spec {
+  position: absolute; inset: 0;
+  z-index: 3;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle 55% at 50% 50%, rgba(255,220,160,0.45) 0%, rgba(195,145,80,0.25) 28%, rgba(169,121,64,0) 60%);
+  transition: opacity 220ms;
+}
+/* film grain noise */
+.tp-team-card__noise {
+  position: absolute; inset: 0;
+  z-index: 4;
+  background-image: url('/assets/noise.svg');
+  background-size: 180px 180px;
+  background-repeat: repeat;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  opacity: 0.30;
+}
+/* top edge gold hairline that intensifies on hover */
+.tp-team-card__edge {
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(226, 192, 120, 0.9) 30%,
+    rgba(255, 240, 200, 1) 50%,
+    rgba(226, 192, 120, 0.9) 70%,
+    transparent 100%);
+  z-index: 4;
+  opacity: 0.7;
+  pointer-events: none;
+  transition: opacity 320ms;
 }
 
 /* ----- Contact ----- */
@@ -900,3 +915,33 @@ button { font-family: inherit; cursor: pointer; }
 /* small util: subtle reveal on scroll for sections (no JS needed except IO toggle later if desired) */
 .tp-reveal { opacity: 0; transform: translateY(12px); transition: opacity 600ms var(--ease-emph), transform 600ms var(--ease-emph); }
 .tp-reveal.is-in { opacity: 1; transform: none; }
+
+/* ----- Floating WhatsApp button ----- */
+.tp-whatsapp-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #25D366;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.4);
+  z-index: 1001;
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.tp-whatsapp-fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 24px rgba(37, 211, 102, 0.55);
+}
+.tp-whatsapp-fab svg {
+  width: 30px;
+  height: 30px;
+  display: block;
+  fill: #fff;
+}
