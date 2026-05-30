@@ -728,6 +728,7 @@ button { font-family: inherit; cursor: pointer; }
   aspect-ratio: 4 / 5;
   background: linear-gradient(180deg, #2A2A2A 0%, #151515 100%);
   position: relative;
+  z-index: 5; /* paint above the iri/spec/noise overlays (z-index 2–4) so blend modes don't affect the photo */
   display: flex; align-items: center; justify-content: center;
   overflow: hidden;
 }
