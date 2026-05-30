@@ -4,6 +4,7 @@
 // and floating golden dust. Effects run client-side and rest gracefully on touch and
 // when prefers-reduced-motion is set. The text content is local — do not change it.
 import Button from './Button.astro';
+import { WHATSAPP_URL } from '../data/contact';
 ---
 <section id="hero" class="tp-hero">
   <div class="tp-hero__bg"></div>
@@ -16,8 +17,7 @@ import Button from './Button.astro';
   <div class="tp-hero__layout">
     <div class="tp-hero__top">
       <div class="tp-hero__eyebrow">
-        <span class="tp-eyebrow-line"></span>
-        <span>Advogados associados · Campinas / SP</span>
+        <span>Campinas / SP</span>
       </div>
       <h1>A <em>segurança</em> jurídica que você precisa<br />para exigir os seus direitos</h1>
     </div>
@@ -28,7 +28,7 @@ import Button from './Button.astro';
         dedicadas por área de atuação, com acompanhamento próximo ao cliente.
       </p>
       <div class="tp-hero__cta-row">
-        <Button variant="primary" href="/#contato" iconRight>Fale conosco</Button>
+        <Button variant="primary" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" iconRight>Fale conosco</Button>
         <Button variant="secondary" href="/especialidades">Conhecer especialidades</Button>
       </div>
     </div>

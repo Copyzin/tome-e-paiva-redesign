@@ -15,8 +15,10 @@
      the corner-anchored copy stacks with comfortable gaps and the CTAs go
      full-width. The cursor effects simply rest on touch. */
   .tp-hero { --hero-inset: 20px; }
+  .tp-hero__particles { display: none; }
   .tp-hero__logo { width: 96vw; right: -22vw; opacity: .55; }
-  .tp-hero__layout { gap: 150px; padding-top: 120px; padding-bottom: 64px; }
+  .tp-hero__logo-layer { transform: none; }
+  .tp-hero__layout { gap: 140px; padding-top: 0; padding-bottom: 64px; min-height: 0; }
   .tp-hero p { font-size: 15px; line-height: 26px; }
   .tp-hero__cta-row { flex-direction: column; align-items: stretch; width: 100%; }
   .tp-hero__cta-row .tp-btn { width: 100%; justify-content: center; }
@@ -24,6 +26,9 @@
   /* ===== Section headers / About ===== */
   .tp-section__title { font-size: 30px; line-height: 1.15; }
   .tp-about__quote { font-size: 22px; line-height: 32px; }
+  .tp-about__map-card { margin-top: 28px; }
+  .tp-about__map { height: 220px; }
+  .tp-about__map-cta { width: 100%; justify-content: center; }
 
   /* ===== Specialty cards ===== */
   .tp-spec-card { padding: 24px; min-height: 0; }
@@ -39,4 +44,19 @@
   .tp-spec-row__aside { padding: 22px; }
   .tp-spec-hero h1 { font-size: 32px; line-height: 1.15; }
   .tp-spec-hero p { font-size: 15px; line-height: 24px; }
+}
+
+/* Small-height phones (SE, older Androids): reduce hero gap so both CTAs stay on screen */
+@media (max-width: 640px) and (max-height: 750px) {
+  .tp-hero__layout { gap: 30px; padding-bottom: 0; }
+}
+
+/* ===== Blog breadcrumb — truncate article title only on phones ===== */
+@media (max-width: 640px) {
+  .tp-crumb .tp-current {
+    max-width: 260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }

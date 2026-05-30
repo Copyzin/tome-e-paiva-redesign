@@ -138,6 +138,16 @@ button { font-family: inherit; cursor: pointer; }
 
 /* Especialidades dropdown */
 .tp-nav__dropdown-wrap { position: relative; }
+/* transparent bridge that fills the 8px gap between the link and the panel,
+   so the wrap stays hovered as the mouse moves down toward the dropdown */
+.tp-nav__dropdown-wrap::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 9px;
+}
 .tp-nav__dropdown-wrap:hover .tp-nav__link-chev,
 .tp-nav__dropdown-wrap:focus-within .tp-nav__link-chev { transform: rotate(180deg); }
 .tp-nav__dropdown {
@@ -152,7 +162,11 @@ button { font-family: inherit; cursor: pointer; }
   min-width: 280px;
   box-shadow: var(--shadow-float);
   z-index: 60;
-  opacity: 0; visibility: hidden; pointer-events: none;
+  opacity: 0; visibility: hidden;
+  /* No pointer-events: none — visibility:hidden already blocks events per spec.
+     This lets the visibility hide-delay act as a grace period: when the mouse
+     briefly exits the wrap on its way to the panel, the panel stays interactive
+     for var(--dur-base) ms so the mouse can enter it and restore hover. */
   transition: opacity var(--dur-base) var(--ease-standard),
               transform var(--dur-base) var(--ease-standard),
               visibility 0s var(--dur-base);
@@ -163,7 +177,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .tp-nav__dropdown-wrap:hover .tp-nav__dropdown,
 .tp-nav__dropdown-wrap:focus-within .tp-nav__dropdown {
-  opacity: 1; visibility: visible; pointer-events: auto;
+  opacity: 1; visibility: visible;
   transform: translateX(-50%) translateY(0);
   transition-delay: 0s;
 }
@@ -336,9 +350,15 @@ button { font-family: inherit; cursor: pointer; }
 .tp-hero__cta-row .tp-btn { white-space: nowrap; flex: 0 0 auto; }
 
 @media (max-width: 1024px) {
-  .tp-hero { min-height: auto; }
   .tp-hero__logo { width: 74vw; right: -10vw; opacity: .85; }
-  .tp-hero__layout { min-height: auto; padding: 132px var(--hero-inset) 72px; gap: 220px; }
+  /* space-between + min-height: 100vh distributes the two blocks naturally at any
+     viewport height — the gap between them grows/shrinks to fill remaining space.
+     Padding uses vh so both top and bottom breathing room scale on short viewports
+     (e.g. 1280×720 at 125% zoom = 1024×576 CSS px). */
+  .tp-hero__layout { padding: clamp(80px, 14vh, 132px) var(--hero-inset) clamp(40px, 7vh, 72px); gap: 48px; }
+  .tp-hero__bottom { max-width: 100%; }
+  .tp-hero p { max-width: 100%; margin-bottom: 20px; }
+  .tp-hero__eyebrow { margin-bottom: 18px; }
 }
 
 /* ----- Buttons ----- */
@@ -422,8 +442,9 @@ button { font-family: inherit; cursor: pointer; }
 .tp-about { background: var(--surface); }
 .tp-about__grid {
   display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 80px;
-  align-items: center;
+  align-items: start;
 }
+.tp-about__aside { display: flex; flex-direction: column; }
 .tp-about__copy h2 {
   font-weight: 200; font-size: 44px; line-height: 1.15;
   letter-spacing: -0.025em;
@@ -462,6 +483,37 @@ button { font-family: inherit; cursor: pointer; }
 @media (max-width: 1024px) {
   .tp-about__grid { grid-template-columns: 1fr; gap: 48px; }
   .tp-about__copy h2 { font-size: 32px; }
+}
+
+/* ----- About: office map (Leaflet, dark) ----- */
+.tp-about__map-card { margin: 36px 0 0; }
+.tp-about__map {
+  height: 260px;
+  border-radius: 6px; /* brand: radii ≤ 6px */
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+  background: var(--surface-container); /* dark fallback before tiles paint */
+}
+.tp-about__map-cta { margin-top: 16px; }
+
+/* Light-touch dark fixes for Leaflet's chrome so it reads as part of the site */
+.tp-about__map .leaflet-container { background: var(--surface-container); font-family: var(--font-sans); }
+.tp-about__map .leaflet-control-attribution {
+  background: rgba(0, 0, 0, 0.6); color: var(--on-surface-muted);
+}
+.tp-about__map .leaflet-control-attribution a { color: var(--primary); }
+.tp-about__map .leaflet-bar a {
+  background: var(--surface-container); color: var(--on-surface);
+  border-bottom-color: var(--hairline);
+}
+.tp-about__map .leaflet-bar a:hover { background: var(--surface-container-high); }
+/* Gold brand marker */
+.tp-map-pin { display: grid; place-items: center; }
+.tp-map-pin__dot {
+  display: block; width: 14px; height: 14px; border-radius: 50%;
+  background: var(--primary);
+  border: 2px solid var(--surface);
+  box-shadow: 0 0 0 4px rgba(169, 121, 64, 0.28);
 }
 
 /* ----- Specialty cards (preview grid + page) ----- */
@@ -646,7 +698,12 @@ button { font-family: inherit; cursor: pointer; }
   display: grid; grid-template-columns: repeat(2, 1fr);
   column-gap: var(--margin-desktop); padding-inline: var(--margin-desktop);
 }
-@media (max-width: 1024px) { .tp-team__grid { column-gap: var(--margin-tablet); padding-inline: var(--margin-tablet); } }
+@media (max-width: 1024px) {
+  .tp-team__grid { column-gap: var(--margin-tablet); padding-inline: var(--margin-tablet); }
+  /* Cap portrait height so the card body (name / role / OAB) stays reachable on
+     short-height viewports without requiring a long scroll inside the section. */
+  .tp-team-card__portrait { max-height: 45vh; }
+}
 @media (max-width: 640px)  { .tp-team__grid { grid-template-columns: 1fr; padding-inline: 0; } }
 .tp-team-card {
   background: var(--surface-container-low);
@@ -944,4 +1001,31 @@ button { font-family: inherit; cursor: pointer; }
   height: 30px;
   display: block;
   fill: #fff;
+}
+
+/* ----- "E-mail copiado" feedback toast (click-to-copy email links) ----- */
+.tp-copy-toast {
+  position: fixed;
+  z-index: 1100; /* above the WhatsApp fab */
+  left: 0; top: 0;
+  transform: translate(-50%, calc(-100% - 12px)); /* sits above the cursor */
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 12px;
+  background: var(--surface-container-high);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 6px;
+  color: var(--on-surface);
+  font-family: var(--font-sans);
+  font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  transition: opacity 160ms var(--ease-standard);
+}
+.tp-copy-toast--below { transform: translate(-50%, 14px); } /* flips below cursor near top edge */
+.tp-copy-toast.is-visible { opacity: 1; }
+.tp-copy-toast svg { width: 13px; height: 13px; color: var(--primary); flex-shrink: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .tp-copy-toast { transition: none; }
 }

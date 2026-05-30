@@ -11,7 +11,7 @@
 <style>
   .tp-scrolltop {
     position: fixed;
-    left: 24px;
+    left: 50%;
     bottom: max(24px, env(safe-area-inset-bottom, 0px));
     z-index: 1001;
     width: 46px;
@@ -27,7 +27,7 @@
     color: var(--primary);
     box-shadow: var(--shadow-float);
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateX(-50%) translateY(14px);
     pointer-events: none;
     transition: opacity var(--dur-base) var(--ease-standard),
                 transform var(--dur-base) var(--ease-standard),
@@ -36,8 +36,18 @@
   }
   .tp-scrolltop.is-visible {
     opacity: 1;
-    transform: none;
+    transform: translateX(-50%);
     pointer-events: auto;
+  }
+  /* Mobile: left side, so it can sit beside BlogBackFab without overlapping */
+  @media (max-width: 640px) {
+    .tp-scrolltop {
+      left: max(16px, env(safe-area-inset-left, 0px));
+      transform: translateY(14px);
+    }
+    .tp-scrolltop.is-visible {
+      transform: none;
+    }
   }
   .tp-scrolltop:hover { border-color: var(--primary); background: rgba(11, 11, 11, 0.9); }
   .tp-scrolltop svg { width: 20px; height: 20px; }

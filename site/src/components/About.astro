@@ -1,5 +1,8 @@
 ---
-// "O Escritório" — institutional section with founder's quote.
+// "O Escritório" — institutional section with founder's quote and, below it,
+// an interactive dark map (Leaflet) pinning the office + a "Como chegar" CTA.
+import Button from './Button.astro';
+import { MAPS_DIRECTIONS_URL, ADDRESS, OFFICE_COORDS } from '../data/contact';
 ---
 <section id="escritorio" class="tp-section tp-about">
   <div class="tp-container">
@@ -18,10 +21,93 @@
           preventiva. Com acompanhamento próximo do início ao fim.
         </p>
       </div>
-      <blockquote class="tp-about__quote">
-        "O advogado é o escudo dos fracos e a voz dos que não podem falar."
-        <cite>Rui Barbosa</cite>
-      </blockquote>
+      <div class="tp-about__aside">
+        <blockquote class="tp-about__quote">
+          "O advogado é o escudo dos fracos e a voz dos que não podem falar."
+          <cite>Rui Barbosa</cite>
+        </blockquote>
+        <figure class="tp-about__map-card">
+          <div
+            id="tp-about-map"
+            class="tp-about__map"
+            role="img"
+            aria-label={`Mapa da localização do escritório — ${ADDRESS}`}
+            data-lat={OFFICE_COORDS.lat}
+            data-lng={OFFICE_COORDS.lng}
+          ></div>
+          <Button
+            variant="secondary"
+            href={MAPS_DIRECTIONS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            iconRight
+            class="tp-about__map-cta"
+          >Como chegar</Button>
+        </figure>
+      </div>
     </div>
   </div>
 </section>
+
+<script>
+  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
+
+  const el = document.getElementById('tp-about-map');
+  if (el && !el.dataset.ready) {
+    const lat = Number(el.dataset.lat);
+    const lng = Number(el.dataset.lng);
+
+    const init = () => {
+      if (el.dataset.ready) return;
+      el.dataset.ready = '1';
+
+      const map = L.map(el, {
+        center: [lat, lng],
+        zoom: 16,
+        scrollWheelZoom: false, // never trap page scroll (critical on touch)
+        attributionControl: true,
+      });
+
+      L.tileLayer(
+        'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+        {
+          maxZoom: 19,
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        }
+      ).addTo(map);
+
+      // Gold brand pin (divIcon) instead of Leaflet's default blue PNG.
+      const icon = L.divIcon({
+        className: 'tp-map-pin',
+        html: '<span class="tp-map-pin__dot"></span>',
+        iconSize: [22, 22],
+        iconAnchor: [11, 11],
+      });
+      L.marker([lat, lng], { icon, title: el.getAttribute('aria-label') || '' })
+        .addTo(map)
+        .bindPopup('Tomé &amp; Paiva — Advogados Associados');
+
+      // Tiles measure the container at creation; nudge once in case it was
+      // initialised while the section was still settling into layout.
+      setTimeout(() => map.invalidateSize(), 200);
+    };
+
+    // Lazy-init only when the map nears the viewport (mirrors the Hero pattern).
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries, obs) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            obs.disconnect();
+            init();
+          }
+        },
+        { rootMargin: '200px' }
+      );
+      io.observe(el);
+    } else {
+      init();
+    }
+  }
+</script>

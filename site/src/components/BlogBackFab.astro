@@ -12,7 +12,7 @@
 <style>
   .tp-blog-fab {
     position: fixed;
-    right: 20px;
+    left: 20px;
     bottom: max(20px, env(safe-area-inset-bottom, 0px));
     z-index: 60;
     display: inline-flex;
@@ -53,7 +53,7 @@
   @media (max-width: 640px) {
     .tp-blog-fab {
       right: auto;
-      left: max(16px, env(safe-area-inset-left, 0px));
+      left: 70px; /* 16px (scrolltop left) + 46px (scrolltop width) + 8px gap */
       padding: 11px 15px;
       font-size: 11px;
     }

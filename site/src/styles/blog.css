@@ -120,10 +120,6 @@
 .tp-crumb a:hover { text-decoration: underline; }
 .tp-crumb .tp-current {
   color: var(--on-surface-muted);
-  max-width: 320px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .tp-article__head { max-width: 760px; margin: 0 auto var(--space-6); }
 .tp-article__meta {

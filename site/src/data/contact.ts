@@ -7,7 +7,7 @@ const WHATSAPP_NUMBER = '551933243864';
 // Every WhatsApp redirect carries this note so the client gets direct
 // attribution that the lead arrived through the website.
 const WHATSAPP_MESSAGE =
-  'Olá! Vim pelo site do escritório Tomé & Paiva e gostaria de agendar uma reunião.';
+  'Olá, gostaria vi o seu site e gostaria de ter mais informações';
 
 export const WHATSAPP_URL =
   `https://wa.me/${WHATSAPP_NUMBER}?text=` + encodeURIComponent(WHATSAPP_MESSAGE);
@@ -29,3 +29,7 @@ export const ADDRESS =
 export const MAPS_DIRECTIONS_URL =
   'https://www.google.com/maps/dir/?api=1&destination=' +
   encodeURIComponent('Rua Dona Ana Eufrosina, 54 - Jardim Brasil, Campinas - SP, 13073-023');
+
+// Geocoded from ADDRESS (Nominatim/OpenStreetMap) — used to center the Escritório
+// map and place its marker. Keep co-located with ADDRESS so they update together.
+export const OFFICE_COORDS = { lat: -22.8869379, lng: -47.0631343 };
