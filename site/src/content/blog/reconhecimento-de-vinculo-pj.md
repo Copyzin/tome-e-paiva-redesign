@@ -3,6 +3,7 @@ title: Reconhecimento de vínculo em contratos PJ
 description: Quando a contratação como pessoa jurídica esconde uma relação de emprego, e o que a Justiça do Trabalho observa para reconhecer o vínculo.
 pubDate: 2026-05-20
 author: Tomé & Paiva
+cover: /assets/blog/cover-reconhecimento-pj.jpg
 tags:
   - Direito do Trabalho
   - Contencioso

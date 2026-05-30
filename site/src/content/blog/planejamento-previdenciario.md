@@ -3,6 +3,7 @@ title: Planejamento previdenciário para autônomos
 description: Como o recolhimento correto hoje define o valor do benefício amanhã, com atenção às regras de transição e à contribuição sob medida.
 pubDate: 2026-05-12
 author: Tomé & Paiva
+cover: /assets/blog/cover-planejamento-previdenciario.jpg
 tags:
   - Direito Previdenciário
   - Consultoria

@@ -444,7 +444,10 @@ button { font-family: inherit; cursor: pointer; }
   display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 80px;
   align-items: start;
 }
-.tp-about__aside { display: flex; flex-direction: column; }
+.tp-about__aside { display: flex; flex-direction: column; container-type: inline-size; }
+@container (min-width: 850px) {
+  .tp-about__quote-text { white-space: nowrap; }
+}
 .tp-about__copy h2 {
   font-weight: 200; font-size: 44px; line-height: 1.15;
   letter-spacing: -0.025em;
@@ -705,7 +708,7 @@ button { font-family: inherit; cursor: pointer; }
      short-height viewports without requiring a long scroll inside the section. */
   .tp-team-card__portrait { max-height: 45vh; }
 }
-@media (max-width: 640px)  { .tp-team__grid { grid-template-columns: 1fr; padding-inline: 0; } }
+@media (max-width: 640px)  { .tp-team__grid { grid-template-columns: 1fr; padding-inline: 0; row-gap: var(--margin-mobile); } }
 .tp-team-card {
   background: var(--surface-container-low);
   border: 1px solid var(--border-card);

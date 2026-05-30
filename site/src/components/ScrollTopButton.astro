@@ -56,10 +56,25 @@
 
 <script>
   const btn = document.querySelector('.tp-scrolltop');
+  const footer = document.querySelector('.tp-footer');
+
   if (btn) {
-    const onScroll = () => btn.classList.toggle('is-visible', window.scrollY > 500);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    const GAP = 16;          // px above the footer top edge
+    const DEFAULT_BOTTOM = 24; // matches CSS fallback
+
+    function update() {
+      btn.classList.toggle('is-visible', window.scrollY > 500);
+
+      if (footer) {
+        const fromBottom = window.innerHeight - footer.getBoundingClientRect().top + GAP;
+        // Only override when the footer is encroaching on the button's default zone
+        btn.style.bottom = fromBottom > DEFAULT_BOTTOM ? fromBottom + 'px' : '';
+      }
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    update();
     btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   }
 </script>

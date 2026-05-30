@@ -3,6 +3,7 @@ title: "Inventário extrajudicial: quando é possível"
 description: O inventário em cartório é mais rápido e discreto que o judicial. Veja os requisitos e quando essa via está disponível.
 pubDate: 2026-04-28
 author: Tomé & Paiva
+cover: /assets/blog/cover-inventario-extrajudicial.jpg
 tags:
   - Famílias e Sucessões
   - Consultoria
