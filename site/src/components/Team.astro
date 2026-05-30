@@ -2,10 +2,10 @@
 // Partner / associate portrait cards (monogram placeholders — real photos pending).
 // Each card carries the Hero's iridescent "black card" tilt/glow effect, applied
 // INDEPENDENTLY per card (see the per-card closures in the script below).
-interface Member { name: string; role: string; oab: string; initial: string; }
+interface Member { name: string; role: string; oab: string; initial: string; photo?: string; }
 const TEAM: Member[] = [
-  { name: 'David Tomé', role: 'Sócio fundador', oab: 'OAB/SP 443.938', initial: 'D' },
-  { name: 'Igor Paiva', role: 'Sócio fundador', oab: 'OAB/SP 443.089', initial: 'P' },
+  { name: 'David Tomé', role: 'Sócio fundador', oab: 'OAB/SP 443.938', initial: 'D', photo: '/assets/david-tome.png' },
+  { name: 'Igor Paiva', role: 'Sócio fundador', oab: 'OAB/SP 443.089', initial: 'P', photo: '/assets/igor-paiva.png' },
 ];
 ---
 <section id="equipe" class="tp-section" style="background: var(--surface-dim)">
@@ -24,7 +24,10 @@ const TEAM: Member[] = [
           <div class="tp-team-card__halo" aria-hidden="true"></div>
           <div class="tp-team-card">
             <div class="tp-team-card__portrait">
-              <span class="tp-team-card__portrait-initial">{m.initial}</span>
+              {m.photo
+                ? <img class="tp-team-card__portrait-photo" src={m.photo} alt={m.name} draggable="false" />
+                : <span class="tp-team-card__portrait-initial">{m.initial}</span>
+              }
             </div>
             <div class="tp-team-card__body">
               <div class="tp-team-card__role">{m.role}</div>
