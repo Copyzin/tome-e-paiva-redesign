@@ -30,6 +30,12 @@
   .tp-about__map { height: 220px; }
   .tp-about__map-cta { width: 100%; justify-content: center; }
 
+  /* ===== Team cards ===== */
+  /* Explicit width + height override aspect-ratio (which would otherwise shrink
+     width proportionally with max-height, leaving a narrow centered portrait). */
+  .tp-team-card__portrait { width: 100%; height: 200px; }
+  .tp-team-card__portrait-initial { font-size: 80px; }
+
   /* ===== Specialty cards ===== */
   .tp-spec-card { padding: 24px; min-height: 0; }
   .tp-spec-card h3 { font-size: 22px; }
