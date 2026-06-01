@@ -273,14 +273,14 @@ button { font-family: inherit; cursor: pointer; }
 }
 .tp-hero__particles {
   position: absolute; inset: 0; width: 100%; height: 100%;
-  z-index: 2; pointer-events: none;
+  z-index: 1; pointer-events: none;
 }
 
 /* Parallax brand symbol — a faint base copy + a brighter copy revealed only where
    the cursor-tracked radial mask crosses the PNG's own gold alpha (so just the
    artwork lights up, never the rectangle or the background). */
 .tp-hero__logo {
-  position: absolute; z-index: 1; top: 50%; right: clamp(-120px, -3vw, 0px);
+  position: absolute; z-index: 2; top: 50%; right: clamp(-120px, -3vw, 0px);
   width: calc(min(64vw, 760px) * var(--logo-scale, 1));
   aspect-ratio: 1232 / 835;            /* matches the gold PNG */
   transform: translateY(-50%); pointer-events: none;

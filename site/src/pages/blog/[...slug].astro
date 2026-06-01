@@ -36,8 +36,6 @@ const meta = [tags[0], dateStr, author].filter(Boolean).join(' · ');
         <p class="tp-article__lede">{description}</p>
       </header>
 
-      {cover && <img src={cover} alt="" class="tp-article__cover" />}
-
       <div class="tp-prose tp-article__body">
         <Content />
       </div>
