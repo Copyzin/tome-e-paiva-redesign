@@ -7,7 +7,7 @@ const WHATSAPP_NUMBER = '551933243864';
 // Every WhatsApp redirect carries this note so the client gets direct
 // attribution that the lead arrived through the website.
 const WHATSAPP_MESSAGE =
-  'Olá, gostaria vi o seu site e gostaria de ter mais informações';
+  'Olá! Vim pelo site do escritório Tomé & Paiva e gostaria de ter mais informações.';
 
 export const WHATSAPP_URL =
   `https://wa.me/${WHATSAPP_NUMBER}?text=` + encodeURIComponent(WHATSAPP_MESSAGE);

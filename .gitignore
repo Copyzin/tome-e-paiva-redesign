@@ -9,6 +9,9 @@ dist/
 # verification / tooling scratch
 .playwright-mcp/
 
+# client deliverables — binary assets kept on disk, not committed
+*.pdf
+
 # local scratch — design export prompt, kept on disk but not committed
 prompt-claude-code-header-hero.md
 
