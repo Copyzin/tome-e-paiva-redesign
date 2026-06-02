@@ -50,6 +50,17 @@
   .tp-spec-row__aside { padding: 22px; }
   .tp-spec-hero h1 { font-size: 32px; line-height: 1.15; }
   .tp-spec-hero p { font-size: 15px; line-height: 24px; }
+
+  /* ===== Navbar — brand words centered in mobile header ===== */
+  .tp-nav__inner { position: relative; }
+  .tp-logo__words {
+    display: flex;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
 }
 
 /* Small-height phones (SE, older Androids): reduce hero gap so both CTAs stay on screen */
