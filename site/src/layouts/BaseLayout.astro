@@ -155,22 +155,30 @@ const jsonLd = {
 
       document.addEventListener('click', async (e) => {
         const target = e.target as HTMLElement | null;
-        const link = target?.closest('a[href^="mailto:" i]') as HTMLAnchorElement | null;
-        if (!link) return;
-        e.preventDefault();
 
-        const email = emailFromLink(link);
-        const ok = await copyText(email);
-
-        // anchor the toast to the pointer; fall back to the link for keyboard activation
-        let x = e.clientX;
-        let y = e.clientY;
-        if (!x && !y) {
-          const r = link.getBoundingClientRect();
-          x = r.left + r.width / 2;
-          y = r.top;
+        // mailto: links → copy address, show "E-mail copiado"
+        const mailLink = target?.closest('a[href^="mailto:" i]') as HTMLAnchorElement | null;
+        if (mailLink) {
+          e.preventDefault();
+          const email = emailFromLink(mailLink);
+          const ok = await copyText(email);
+          let x = e.clientX, y = e.clientY;
+          if (!x && !y) { const r = mailLink.getBoundingClientRect(); x = r.left + r.width / 2; y = r.top; }
+          showToast(x, y, ok ? 'E-mail copiado' : email);
+          return;
         }
-        showToast(x, y, ok ? 'E-mail copiado' : email);
+
+        // data-copy-value elements → copy value, show data-copy-label
+        const copyEl = target?.closest('[data-copy-value]') as HTMLElement | null;
+        if (copyEl) {
+          e.preventDefault();
+          const value = (copyEl as HTMLElement & { dataset: DOMStringMap }).dataset.copyValue ?? '';
+          const label = (copyEl as HTMLElement & { dataset: DOMStringMap }).dataset.copyLabel ?? 'Copiado';
+          const ok = await copyText(value);
+          let x = e.clientX, y = e.clientY;
+          if (!x && !y) { const r = copyEl.getBoundingClientRect(); x = r.left + r.width / 2; y = r.top; }
+          showToast(x, y, ok ? label : value);
+        }
       });
     </script>
   </body>
